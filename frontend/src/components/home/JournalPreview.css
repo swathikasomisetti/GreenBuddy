@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap");
+
+/* =====================================================
+   VARIABLES — same tokens as Hero / Features / Gallery
+===================================================== */
+.journal {
+  --bg: #07130d;
+  --panel: #f7f5ef;
+  --dark: #293222;
+  --accent: #d6b36a;
+  --muted: #6f7365;
+  --edge: 6%;
+}
+
+/* =====================================================
+   SECTION SHELL
+===================================================== */
+.journal {
+  position: relative;
+  background: var(--panel);
+  padding: 76px var(--edge) 56px;
+  overflow: hidden;
+}
+
+.journal-accent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  z-index: 1;
+}
+
+/* =====================================================
+   TOP-RIGHT LINK
+===================================================== */
+.journal-link {
+  position: absolute;
+  top: 28px;
+  right: var(--edge);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(41, 50, 34, 0.25);
+  background: rgba(41, 50, 34, 0.04);
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--dark);
+  transition: background 0.3s, color 0.3s;
+}
+
+.journal-link:hover {
+  background: var(--dark);
+  color: var(--panel);
+}
+
+.journal-link span {
+  transition: transform 0.3s;
+}
+
+.journal-link:hover span {
+  transform: translateX(3px);
+}
+
+/* =====================================================
+   HEAD
+===================================================== */
+.journal-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  margin-bottom: 40px;
+  padding-top: 14px;
+}
+
+.journal-kicker {
+  font-family: "Caveat", cursive;
+  font-size: 1.6rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.journal-head h2 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  color: var(--dark);
+  letter-spacing: 0.2px;
+}
+
+.journal-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 8px;
+  color: var(--accent);
+}
+
+/* =====================================================
+   GRID / CARDS — phone-mockup treatment
+===================================================== */
+.journal-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.journal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.journal-kicker-label {
+  align-self: flex-start;
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.journal-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(41, 50, 34, 0.22);
+  border: 5px solid var(--panel);
+  outline: 1px solid rgba(41, 50, 34, 0.08);
+}
+
+.journal-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.journal-card:hover .journal-img img {
+  transform: scale(1.06);
+}
+
+.journal-img-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 45%,
+    rgba(7, 19, 13, 0.75) 100%
+  );
+}
+
+.journal-img h3 {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.22;
+  color: var(--panel);
+}
+
+.journal-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
+
+.meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.journal-card p {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+.journal-footer {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 36px auto 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(41, 50, 34, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Inter", sans-serif;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.journal-hashtags {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 960px) {
+  .journal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .journal-link {
+    position: static;
+    display: inline-flex;
+    margin: 0 auto 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .journal {
+    padding: 60px var(--edge) 46px;
+  }
+  .journal-grid {
+    grid-template-columns: 1fr;
+  }
+  .journal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

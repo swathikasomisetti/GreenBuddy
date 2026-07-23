@@ -1,0 +1,1131 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+:root {
+  --ink: #1c1d18;
+  --paper: #f7f5ef;
+  --paper-dim: #efece3;
+  --moss: #4f6b4a;
+  --moss-deep: #2f4530;
+  --clay: #b5602f;
+  --gold: #c79a4b;
+  --stone: #8a8d7c;
+  --line: rgba(28, 29, 24, 0.12);
+  --forest-900: #0b130c;
+  --forest-800: #142518;
+
+  /* ── Shared layout tokens ──
+     One width for every "boxed" section (promo, overview, the atmosphere
+     panel, search, collection) so nothing on the page reads a different
+     breadth than its neighbor. Full-bleed bands (overview background,
+     collection background) are the deliberate exception — they're meant
+     to feel like immersive panels behind the same-width content inside. */
+  --content-w: 1080px;
+  --radius-lg: 20px;
+  --radius-md: 16px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --ease: cubic-bezier(0.16, 0.8, 0.24, 1);
+  --shadow-card: 0 14px 32px rgba(28, 29, 24, 0.08);
+  --shadow-lift: 0 24px 48px rgba(11, 19, 12, 0.24);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html, body, #root, #app {
+  background: var(--forest-900) !important;
+  max-width: none !important;
+}
+
+body {
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Visible keyboard focus everywhere, on top of whatever a browser default
+   would otherwise do — required for real keyboard/AT navigation. */
+:focus-visible {
+  outline: 2px solid var(--moss);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────
+   DASHBOARD WRAPPER — fluid, full viewport width.
+   No max-width here and no flat cream fill: every
+   section below paints its OWN full-bleed background
+   (photo or forest tone), edge to edge. That's what
+   actually kills the "cream margins around the boxed
+   panels" bug — there is no shared cream layer left
+   for a centered max-width child to expose at its sides.
+   ───────────────────────────────────────────── */
+.dashboard-wrapper {
+  /* Breaks out of ANY ancestor max-width container (a layout <main>,
+     an App.css wrapper, whatever) regardless of what it is — this is
+     the part of the page that was still visibly boxed in the last
+     screenshot, at almost exactly --content-w (1080px) centered on a
+     1536px viewport. If a parent element upstream is constraining
+     width, this forces the wrapper past it back out to the real
+     viewport edges. */
+  position: relative !important;
+  width: 100vw !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  max-width: none !important;
+  min-height: 100vh;
+  background: var(--forest-900);
+  overflow-x: clip;
+}
+
+/* Anchor-scroll fix: the "View your collection" link smooth-scrolls to
+   #collection. Without this, the sticky navbar + sticky search toolbar
+   sit on top of the section and hide the "Full collection" heading. */
+#collection {
+  scroll-margin-top: 148px;
+}
+
+/* ─────────────────────────────────────────────
+   HERO — full-bleed photo, brush-script title, and
+   a soft gradient dissolve into the next section
+   instead of a hard-edged shape sitting on top of it.
+   (The old version painted an opaque jagged "torn
+   paper" cutout over the bottom of the photo — that
+   was the background "stopping abruptly" the brief
+   flagged. A gradient lets the photo actually fade
+   out instead of getting covered.)
+   ───────────────────────────────────────────── */
+.hero-wrap {
+  position: relative;
+}
+
+.hero-masthead {
+  position: relative;
+  width: 100%;
+  height: 96vh;
+  min-height: 680px;
+  max-height: 980px;
+  overflow: hidden;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 8, 0.35) 0%,
+    rgba(10, 14, 8, 0.05) 30%,
+    rgba(10, 14, 8, 0.1) 55%,
+    rgba(10, 14, 8, 0.82) 100%
+  );
+}
+
+.hero-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero-title {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: clamp(72px, 14vw, 160px);
+  line-height: 0.82;
+  color: #fdfbf6;
+  margin: 0;
+  transform: rotate(-2deg);
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hero-sub {
+  margin-top: 22px;
+  max-width: 460px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-figure {
+  position: absolute;
+  bottom: 90px;
+  right: 12%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  color: #fff;
+  text-align: right;
+  max-width: 44vw;
+}
+
+.hero-figure-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-figure-date {
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Smooth dissolve from the photo into the promo band's paper tone —
+   the photo keeps going underneath it, it just fades rather than
+   getting cut off by a hard shape. */
+.hero-tear {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    rgba(247, 245, 239, 0) 0%,
+    rgba(247, 245, 239, 0.55) 55%,
+    var(--paper) 100%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .hero-figure {
+    bottom: 64px;
+    right: 6%;
+    max-width: 60vw;
+  }
+  .hero-tear {
+    height: 120px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PROMO PANEL — full-bleed paper band. The section
+   itself spans 100% of the viewport (so there's no
+   cream "gap" beside it); the horizontal padding is
+   calculated so the content inside still lines up at
+   --content-w, without needing an extra wrapper div.
+   ───────────────────────────────────────────── */
+.promo-panel {
+  width: 100%;
+  margin: 0;
+  padding: 88px max(24px, calc((100% - var(--content-w)) / 2)) 80px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 56px;
+  align-items: center;
+  background: var(--paper);
+}
+
+.promo-photo-frame {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 7px solid #fff;
+  box-shadow: 0 18px 40px rgba(28, 29, 24, 0.2);
+  justify-self: center;
+  filter: saturate(0.96) contrast(1.02);
+  transform: rotate(-4deg);
+  transition: transform 0.25s var(--ease);
+}
+
+.promo-photo-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Playful dashed gold ring floating just outside the frame, like a
+   sticker outline, instead of a plain circular crop. */
+.promo-photo-frame::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border: 2.5px dashed var(--gold);
+  border-radius: 52px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.promo-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 32px;
+}
+
+.promo-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.promo-dots {
+  font-style: normal;
+  letter-spacing: 2px;
+  color: var(--gold);
+}
+
+.promo-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 40px);
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.promo-text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--stone);
+  max-width: 480px;
+  margin: 0 0 20px;
+}
+
+.promo-list {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.promo-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.promo-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.promo-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: #1c1d18;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(199, 154, 75, 0.35);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+.promo-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(199, 154, 75, 0.42);
+}
+
+@media (max-width: 760px) {
+  .promo-panel {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 64px;
+    padding-bottom: 56px;
+  }
+  .promo-list li {
+    text-align: left;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   OVERVIEW STATS — dark forest panel, gold pill
+   badge, split-color heading, and white cards with
+   gold squircle icon badges. Each card carries an
+   animated count-up number (in Dashboard.jsx) and a
+   mini progress bar showing its real share of the
+   collection. 5 cards so the grid always fills an
+   even row instead of stranding one card alone.
+   Already full-bleed with an inner max-width
+   container — this is the pattern every other band
+   on the page now follows too.
+   ───────────────────────────────────────────── */
+.overview-section {
+  width: 100%;
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(79, 107, 74, 0.35) 0%, rgba(79, 107, 74, 0) 55%),
+    linear-gradient(165deg, var(--forest-800) 0%, var(--forest-900) 70%);
+  padding: 96px 24px 104px;
+  margin: 0;
+}
+
+.overview-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.overview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(199, 154, 75, 0.4);
+  background: rgba(199, 154, 75, 0.08);
+  padding: 8px 18px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.overview-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: clamp(30px, 4.6vw, 48px);
+  line-height: 1.2;
+  color: #f4f1e8;
+  margin: 0 0 56px;
+}
+
+.overview-title em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  text-align: left;
+}
+
+.overview-card {
+  background: #f9f7f1;
+  border-radius: var(--radius-md);
+  padding: 26px 24px 24px;
+  box-shadow: var(--shadow-card), 0 18px 36px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  animation: fadeUp 0.7s var(--ease) both;
+}
+
+.overview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card), 0 26px 46px rgba(0, 0, 0, 0.28);
+}
+
+.overview-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--gold);
+  color: var(--forest-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: transform 0.2s var(--ease);
+}
+
+.overview-card:hover .overview-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.overview-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.overview-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--ink);
+  margin: 0 0 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.overview-card-label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.overview-card-desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--stone);
+  margin: 0;
+}
+
+.overview-bar {
+  margin-top: 16px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(28, 29, 24, 0.08);
+  overflow: hidden;
+}
+
+.overview-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--moss), var(--gold));
+  transition: width 1s var(--ease);
+}
+
+.overview-flagged .overview-icon {
+  background: var(--clay);
+  color: #fff;
+}
+
+.overview-flagged h3 {
+  color: var(--clay);
+}
+
+.overview-flagged .overview-bar-fill {
+  background: linear-gradient(90deg, var(--clay), #e6935e);
+}
+
+@media (max-width: 560px) {
+  .overview-section {
+    padding: 72px 18px 80px;
+  }
+  .overview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* 5 cards on a 2-column grid → last card sits alone; let it span both
+     columns so it's centered instead of stranded to one side. */
+  .overview-card:last-child {
+    grid-column: span 2;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   TODAY IN YOUR GARDEN — Weather, Insights (Plant
+   Analytics), and the Care calendar in one continuous
+   full-bleed photo band. Two garden photos crossfade
+   top-to-bottom via a mask gradient (no hard seam),
+   with a shared forest scrim over both so text stays
+   readable throughout.
+
+   This used to be a centered "card" — max-width, its
+   own border-radius, and a drop shadow floating on the
+   cream page background. That's exactly what produced
+   the cream margins on both sides in the screenshot.
+   Now the band itself is full width (background runs
+   edge to edge) and only the CONTENT inside is capped
+   at --content-w, same pattern as every other section.
+
+   Weather + Insights now stack vertically instead of
+   sitting side by side (.atmosphere-grid below).
+   ───────────────────────────────────────────── */
+.atmosphere-panel {
+  position: relative;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.atmosphere-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.atmosphere-bg-a {
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
+}
+
+.atmosphere-bg-b {
+  background-position: center bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 20%, #000 55%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 20%, #000 55%, #000 100%);
+}
+
+.atmosphere-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 19, 12, 0.55) 0%,
+    rgba(11, 19, 12, 0.7) 45%,
+    rgba(11, 19, 12, 0.88) 100%
+  );
+}
+
+.atmosphere-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: var(--space-7) 24px var(--space-6);
+}
+
+.atmosphere-header {
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.atmosphere-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 32px);
+  color: #f4f1e8;
+  margin: 0;
+}
+
+/* Weather Card, then Garden Analytics — one column, equal spacing,
+   each card filling the full available width. */
+.atmosphere-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.atmosphere-card {
+  display: flex;
+  flex-direction: column;
+  animation: fadeUp 0.7s var(--ease) both;
+}
+
+.atmosphere-card > * {
+  width: 100%;
+}
+
+.atmosphere-weather { animation-delay: 60ms; }
+.atmosphere-insights { animation-delay: 130ms; }
+
+.atmosphere-schedule {
+  border-top: 1px solid rgba(247, 245, 239, 0.14);
+  padding-top: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .atmosphere-inner {
+    padding: var(--space-6) 18px var(--space-5);
+  }
+}
+
+/* ── Care calendar sub-header + pill list (shared visual language with
+   the atmosphere panel's own header) ── */
+.schedule-wide-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.schedule-wide-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(199, 154, 75, 0.4);
+  background: rgba(199, 154, 75, 0.08);
+  padding: 7px 16px;
+  border-radius: 999px;
+}
+
+.schedule-wide-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2.2vw, 22px);
+  color: #f4f1e8;
+  margin: 0;
+}
+
+.schedule-wide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(247, 245, 239, 0.08);
+  border: 1px solid rgba(247, 245, 239, 0.14);
+  border-radius: 999px;
+  padding: 8px 22px 8px 8px;
+  backdrop-filter: blur(2px);
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease), transform 0.15s var(--ease);
+  animation: fadeUp 0.5s var(--ease) both;
+}
+
+.schedule-pill:hover {
+  background: rgba(247, 245, 239, 0.13);
+  transform: translateX(2px);
+}
+
+.schedule-pill.is-overdue {
+  border-color: rgba(181, 96, 47, 0.5);
+  background: rgba(181, 96, 47, 0.18);
+}
+
+.schedule-pill-day {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--forest-900);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.schedule-pill.is-overdue .schedule-pill-day {
+  background: var(--clay);
+  color: #fff;
+}
+
+.pill-day-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pill-day-month {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+
+.schedule-pill-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f4f1e8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schedule-pill-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(247, 245, 239, 0.75);
+  white-space: nowrap;
+}
+
+.schedule-pill-status svg {
+  stroke: currentColor;
+}
+
+.schedule-pill.is-overdue .schedule-pill-status {
+  color: #e6935e;
+}
+
+.schedule-wide-empty {
+  color: rgba(247, 245, 239, 0.75);
+  padding: 16px 4px;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .schedule-pill {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .schedule-pill-status {
+    margin-left: 58px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   SEARCH — a single glass toolbar holding the search
+   input, category select, and status pills. Sticky
+   beneath the navbar while scrolling — position never
+   changes, so filtering stays reachable without
+   scrolling back up. Frosted/translucent so it reads
+   correctly whether it's sitting over the dark
+   "Today in your garden" band or the photo collection
+   band beneath it.
+   ───────────────────────────────────────────── */
+.search-toolbar {
+  max-width: var(--content-w);
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  position: sticky;
+  /* Adjust to match your Navbar's real rendered height. */
+  top: 84px;
+  z-index: 30;
+}
+
+.search-toolbar-card {
+  background: rgba(247, 245, 239, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: 0 8px 32px rgba(11, 19, 12, 0.18), 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.search-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.search-wrap input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 13px 42px;
+  font-size: 14px;
+  border-radius: 12px;
+  color: var(--ink);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.search-wrap input::placeholder {
+  color: var(--stone);
+}
+
+.search-wrap input:focus {
+  outline: none;
+  border-color: var(--moss);
+  background: #fff;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--stone);
+  pointer-events: none;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(28, 29, 24, 0.08);
+  border: none;
+  cursor: pointer;
+  color: var(--stone);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.clear-btn:hover {
+  background: rgba(28, 29, 24, 0.16);
+  color: var(--ink);
+}
+
+.category-select {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 13px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  border-radius: 12px;
+  min-width: 170px;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease);
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: var(--moss);
+}
+
+.status-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-filter button {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.5);
+  padding: 9px 18px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--stone);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.15s var(--ease);
+}
+
+.status-filter button:hover {
+  border-color: var(--moss);
+  color: var(--moss-deep);
+}
+
+.status-filter button.active-filter {
+  background: var(--moss-deep);
+  color: #fff;
+  border-color: var(--moss-deep);
+}
+
+@media (max-width: 560px) {
+  .search-toolbar-card {
+    padding: 20px;
+    border-radius: var(--radius-md);
+  }
+  /* Sticky search fights for space with small screens more than it
+     helps — let it scroll normally on phones instead. */
+  .search-toolbar {
+    position: static;
+  }
+}
+
+/* Restyled to match the glass/forest language of everything around it —
+   this used to be a flat cream box (--paper-dim), which is the same
+   "stray cream patch on a dark page" issue as the boxed panels above. */
+.watering-alert {
+  max-width: var(--content-w);
+  margin: 0 auto 32px;
+  padding: 22px 28px;
+  background: rgba(247, 245, 239, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(247, 245, 239, 0.14);
+  border-left: 3px solid var(--clay);
+  border-radius: var(--radius-md);
+}
+
+.watering-alert h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: #fdfcf9;
+}
+
+.alert-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(247, 245, 239, 0.14);
+  font-size: 14px;
+  color: rgba(244, 241, 232, 0.88);
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-tag {
+  color: #e6935e;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .watering-alert {
+    margin: 0 18px 28px;
+    padding: 18px 20px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   COLLECTION BAND — the full plant grid sits on an
+   atmospheric potted-cacti backdrop instead of flat
+   paper, so the white cards float and pop against it.
+   Already full-bleed with an inner max-width wrapper —
+   same pattern as overview and the atmosphere panel.
+   scroll-margin-top on #collection (set above) keeps
+   the "Full collection" heading from landing behind
+   the sticky navbar + sticky search toolbar when
+   jumped to via the promo CTA.
+   ───────────────────────────────────────────── */
+.collection-band {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  padding: 72px 24px 84px;
+}
+
+.collection-band-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+}
+
+.collection-band .section-header {
+  max-width: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background: none;
+}
+
+.collection-band .section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fdfcf9;
+  margin: 0;
+}
+
+.collection-band .plant-count {
+  font-size: 12px;
+  color: rgba(253, 252, 249, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.plants-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 4px 14px;
+  scroll-snap-type: x mandatory;
+}
+
+/* Card width lives in PlantCard.css (.pc-card { width: 200px }) as the
+   source of truth — this wrapper rule just backs it up in case a future
+   PlantCard change reintroduces a wider fixed width. */
+.plants-scroll > * {
+  flex: 0 0 200px;
+  max-width: 200px;
+  scroll-snap-align: start;
+}
+
+.empty-state-inline {
+  max-width: 440px;
+  text-align: center;
+  padding: 56px 36px;
+  margin: 0 auto;
+  background: rgba(11, 19, 12, 0.5);
+  border: 1px solid rgba(253, 252, 249, 0.16);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+}
+
+.empty-state-inline h3 {
+  color: #fdfcf9;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.empty-state-inline p {
+  color: rgba(253, 252, 249, 0.72);
+  font-size: 13.5px;
+  margin: 0 0 22px;
+}
+
+.empty-state-inline button {
+  border: 1px solid rgba(253, 252, 249, 0.5);
+  background: transparent;
+  color: #fdfcf9;
+  padding: 10px 24px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+}
+
+.empty-state-inline button:hover {
+  background: rgba(253, 252, 249, 0.14);
+}
+
+@media (max-width: 560px) {
+  .collection-band {
+    padding: 56px 18px 64px;
+  }
+}

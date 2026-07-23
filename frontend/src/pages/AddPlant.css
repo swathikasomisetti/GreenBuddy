@@ -1,0 +1,583 @@
+/* ════════════════════════════════════════
+   ADD PLANT  –  GreenBuddy
+   Restyled to match the Dashboard's brand: warm
+   cream paper, forest green + gold, Playfair Display
+   for headings, Caveat for the handwritten touch,
+   Inter for body copy. Same signature moves as the
+   Dashboard — dashed gold rings, gold-dot bullets,
+   pill "kicker" badges — just reused here instead of
+   invented fresh, so the two pages read as one product.
+   ════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #1c1d18;
+  --ink-soft: #4b4d42;
+  --paper: #f7f5ef;
+  --paper-dim: #efece3;
+  --moss: #4f6b4a;
+  --moss-deep: #2f4530;
+  --clay: #b5602f;
+  --gold: #c79a4b;
+  --stone: #8a8d7c;
+  --line: rgba(28, 29, 24, 0.14);
+  --radius-lg: 28px;
+  --radius-md: 14px;
+  --shadow-card: 0 24px 64px rgba(28, 29, 24, 0.12);
+  --ease: cubic-bezier(0.16, 0.8, 0.24, 1);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script: 'Caveat', cursive;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
+/* ── Page shell — warm cream, not stark white ── */
+.ap-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(120% 100% at 15% 0%, rgba(199, 154, 75, 0.10) 0%, rgba(199, 154, 75, 0) 55%),
+    var(--paper-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  font-family: var(--font-body);
+}
+
+.ap-layout {
+  width: 100%;
+  max-width: 1180px;
+  min-height: 720px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+
+/* ══════════════════════════════
+   LEFT PANEL — the window photo,
+   matted like a framed picture,
+   because "Add Plant" is literally
+   about what's growing outside it.
+══════════════════════════════ */
+.ap-left {
+  position: relative;
+  background: var(--moss-deep);
+  display: flex;
+  align-items: stretch;
+  padding: 22px;
+}
+
+/* The photo itself, inset with a cream mat border like a
+   framed print — playful nod to "looking out at your garden". */
+.ap-left-photo {
+  position: absolute;
+  inset: 22px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: url("../assets/add-plant-bg.jpg") center / cover no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.ap-left-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    195deg,
+    rgba(11, 19, 12, 0.66) 0%,
+    rgba(11, 19, 12, 0.22) 42%,
+    rgba(11, 19, 12, 0.1) 60%,
+    rgba(11, 19, 12, 0.78) 100%
+  );
+}
+
+/* Thin cream "window pane" cross — a light echo of actual
+   window mullions, tying the photo to the page's theme
+   without being literal about it. */
+.ap-left-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(rgba(247, 245, 239, 0.28), rgba(247, 245, 239, 0.28)),
+    linear-gradient(rgba(247, 245, 239, 0.28), rgba(247, 245, 239, 0.28));
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 2px 100%;
+  background-position: 50% 62%, 50% 0;
+  pointer-events: none;
+}
+
+.ap-left-inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 30px 34px;
+  width: 100%;
+  gap: 0;
+}
+
+/* Little gold dashed "sticker" badge, same move as the
+   Dashboard's promo photo frame ring. */
+.ap-left-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fdfbf6;
+  border: 1.5px dashed rgba(199, 154, 75, 0.75);
+  background: rgba(199, 154, 75, 0.14);
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 40px;
+}
+
+/* Brand — handwritten, like the Dashboard's hero title */
+.ap-brand {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 2.1rem;
+  color: #fff;
+  letter-spacing: 0;
+  line-height: 1;
+  transform: rotate(-2deg);
+  margin-bottom: 34px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+.ap-left-copy {
+  flex: 1;
+}
+
+.ap-tagline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 2.8vw, 2.5rem);
+  line-height: 1.18;
+  color: #fdfbf6;
+  margin: 0 0 16px;
+}
+
+.ap-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(253, 251, 246, 0.78);
+  margin: 0 0 44px;
+  max-width: 280px;
+}
+
+/* Feature list — gold-dot bullets, same language as the
+   Dashboard's promo-list. */
+.ap-features {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.ap-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(253, 251, 246, 0.88);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.ap-feature-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(199, 154, 75, 0.22);
+}
+
+
+/* ══════════════════════════════
+   RIGHT PANEL — the form, on the
+   same cream paper as everything
+   else in the product.
+══════════════════════════════ */
+.ap-right {
+  padding: 48px 56px 56px;
+  overflow-y: auto;
+  background: var(--paper);
+}
+
+.ap-right-header {
+  margin-bottom: 30px;
+}
+
+.ap-right-header h1 {
+  font-family: var(--font-display);
+  color: var(--moss-deep);
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.ap-right-header p {
+  color: var(--stone);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.ap-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+
+/* ── Sections — kicker-pill labels, same shape as the
+   Dashboard's "Today in your garden" / "Care calendar"
+   section headers instead of a plain uppercase + rule. ── */
+.ap-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ap-section-label {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--gold);
+  border: 1px solid rgba(199, 154, 75, 0.4);
+  background: rgba(199, 154, 75, 0.09);
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ap-optional {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--stone);
+  text-transform: none;
+  letter-spacing: 0;
+  background: rgba(28, 29, 24, 0.06);
+  padding: 2px 9px;
+  border-radius: 5px;
+}
+
+
+/* ── Field grid ── */
+.ap-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ap-field--full {
+  grid-column: 1 / -1;
+}
+
+.ap-field label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.ap-req { color: var(--clay); }
+
+.ap-field input,
+.ap-field textarea,
+.ap-field select {
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+  width: 100%;
+}
+
+.ap-field input::placeholder,
+.ap-field textarea::placeholder {
+  color: #b7b6ab;
+}
+
+.ap-field input:focus,
+.ap-field textarea:focus,
+.ap-field select:focus {
+  outline: none;
+  border-color: var(--moss);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(79, 107, 74, 0.12);
+}
+
+.ap-field select { cursor: pointer; appearance: auto; }
+.ap-field textarea { resize: vertical; min-height: 80px; }
+
+
+/* ── AI generate button — small gold pill under the plant
+   name field. (Was styled as `.ai-generate-btn` in the old
+   CSS, but the button in the JSX uses `ai-btn` — that class
+   never actually matched anything, so it was rendering
+   unstyled. Styled here under the class that's really used.) ── */
+.ai-btn {
+  margin-top: 4px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--gold), #e0b568);
+  color: #1c1d18;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(199, 154, 75, 0.32);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+.ai-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(199, 154, 75, 0.4);
+}
+
+.ai-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+
+/* ── Upload ── */
+.ap-upload-area { width: 100%; }
+
+.ap-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px dashed rgba(79, 107, 74, 0.4);
+  border-radius: var(--radius-md);
+  padding: 36px 20px;
+  background: var(--paper-dim);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  text-align: center;
+}
+
+.ap-upload-label:hover {
+  border-color: var(--moss);
+  background: #f0ede3;
+}
+
+.ap-upload-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(79, 107, 74, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--moss-deep);
+}
+
+.ap-upload-text {
+  font-weight: 600;
+  color: var(--moss-deep);
+  font-size: 0.92rem;
+}
+
+.ap-upload-hint {
+  font-size: 0.76rem;
+  color: var(--stone);
+}
+
+.ap-preview-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ap-preview-img {
+  width: 160px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-card);
+  display: block;
+  transform: rotate(-1.5deg);
+}
+
+.ap-remove-btn {
+  align-self: flex-start;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -20px;
+  margin-top: -8px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+}
+
+.ap-replace-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--moss-deep);
+  background: rgba(79, 107, 74, 0.1);
+  border: 1.5px solid rgba(79, 107, 74, 0.3);
+  padding: 9px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ap-replace-btn:hover {
+  background: rgba(79, 107, 74, 0.18);
+  border-color: var(--moss);
+}
+
+
+/* ── Actions ── */
+.ap-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  padding-top: 24px;
+}
+
+.ap-cancel-btn {
+  padding: 13px 28px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--stone);
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.ap-cancel-btn:hover {
+  border-color: var(--stone);
+  color: var(--ink);
+}
+
+.ap-submit-btn {
+  padding: 13px 38px;
+  background: linear-gradient(135deg, var(--gold), #e0b568);
+  color: #1c1d18;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(199, 154, 75, 0.35);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  letter-spacing: 0.01em;
+}
+
+.ap-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(199, 154, 75, 0.42);
+}
+
+.ap-submit-btn:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.ap-submit-btn:disabled { opacity: 0.6; cursor: default; box-shadow: none; }
+
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 960px) {
+  .ap-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .ap-left {
+    min-height: 220px;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .ap-left-photo { inset: 16px; }
+  .ap-left-photo::before { display: none; }
+
+  .ap-left-inner {
+    padding: 24px 24px 28px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .ap-left-badge { margin-bottom: 14px; }
+  .ap-brand { margin-bottom: 0; flex-basis: 100%; }
+  .ap-left-copy { flex: 1; min-width: 220px; }
+  .ap-desc { display: none; }
+  .ap-features { display: none; }
+
+  .ap-right {
+    padding: 36px 32px 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ap-page { padding: 0; }
+  .ap-layout { border-radius: 0; }
+  .ap-right { padding: 26px 18px 36px; }
+  .ap-field-grid { grid-template-columns: 1fr; }
+  .ap-actions { flex-direction: column-reverse; }
+  .ap-cancel-btn, .ap-submit-btn { width: 100%; text-align: center; }
+}

@@ -1,0 +1,846 @@
+/* ============================================================
+   PlantDetails.css — GreenBuddy plant record page
+   Direction: moody photographic hero up top, then the record
+   itself lives on warm cream "paper" below — but that paper zone
+   is built from FIVE botanical accent tints (moss / terracotta /
+   gold / sky / berry), not one flat cream everywhere, so panels
+   read as distinct, hand-tagged cards rather than one long wash
+   of the same colour. Signature move: the health score renders
+   as a stamped "grow meter" gauge instead of a plain progress bar.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ---------------------------------------------------------------
+   TOKENS
+   These are scoped to .pd-page (and its fixed-position siblings)
+   rather than a bare :root, so they won't clash with tokens
+   defined elsewhere in the app if PlantDetails.css loads
+   alongside other stylesheets.
+--------------------------------------------------------------- */
+.pd-page,
+.pd-atmosphere,
+.pd-atmosphere-veil {
+  /* hero (dark, photographic) */
+  --gb-hero-bg: #12160e;
+  --gb-hero-ink: #f8f2e2;
+  --gb-hero-ink-soft: rgba(248, 242, 226, 0.72);
+
+  /* paper (cream, but layered — three distinct depths) */
+  --gb-paper: #f4ecd8;        /* the sheet itself */
+  --gb-paper-raised: #fffcf3; /* cards sitting on the sheet */
+  --gb-paper-deep: #e9dbb8;   /* wells / tracks / insets */
+  --gb-ink: #2b2717;
+  --gb-ink-soft: #756c54;
+  --gb-line: #e3d3a9;
+
+  /* botanical accents + soft tints */
+  --gb-moss: #4a6b3e;
+  --gb-moss-tint: #e3ecd6;
+  --gb-terracotta: #bd5a3a;
+  --gb-terracotta-tint: #f5ddd0;
+  --gb-gold: #c8912e;
+  --gb-gold-tint: #f8e6bc;
+  --gb-sky: #4c8797;
+  --gb-sky-tint: #dbebee;
+  --gb-berry: #ac5468;
+  --gb-berry-tint: #f2dee3;
+
+  /* semantic (referenced inline from JSX) */
+  --gb-healthy: var(--gb-moss);
+  --gb-warning: var(--gb-gold);
+  --gb-critical: var(--gb-terracotta);
+
+  /* type */
+  --gb-font-display: 'Fraunces', Georgia, serif;
+  --gb-font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --gb-font-label: 'Space Mono', 'Courier New', monospace;
+
+  /* geometry */
+  --gb-radius-sm: 10px;
+  --gb-radius-md: 18px;
+  --gb-radius-lg: 28px;
+  --gb-radius-pill: 999px;
+
+  --gb-shadow-sm: 0 2px 10px rgba(43, 39, 23, 0.08);
+  --gb-shadow-md: 0 10px 28px rgba(43, 39, 23, 0.10);
+  --gb-shadow-lg: 0 20px 48px rgba(43, 39, 23, 0.14);
+  --gb-shadow-hero: 0 30px 70px rgba(8, 10, 5, 0.5);
+}
+
+.pd-page,
+.pd-page * {
+  box-sizing: border-box;
+}
+
+.pd-page {
+  font-family: var(--gb-font-body);
+  color: var(--gb-ink);
+  background: var(--gb-hero-bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------
+   FIXED ATMOSPHERE (hero backdrop, sits behind everything;
+   the cream sheet below simply covers it once scrolled past)
+--------------------------------------------------------------- */
+.pd-atmosphere {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.9) brightness(0.62);
+  z-index: 0;
+}
+
+.pd-atmosphere-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(18, 22, 14, 0.15) 0%, rgba(18, 22, 14, 0.7) 70%),
+    linear-gradient(180deg, rgba(18, 22, 14, 0.35) 0%, rgba(18, 22, 14, 0.55) 55%, var(--gb-hero-bg) 100%);
+}
+
+/* ---------------------------------------------------------------
+   LOADING
+--------------------------------------------------------------- */
+.pd-loading-card {
+  position: relative;
+  z-index: 2;
+  max-width: 320px;
+  margin: 22vh auto;
+  padding: 2.25rem 2rem;
+  background: var(--gb-paper-raised);
+  border-radius: var(--gb-radius-lg);
+  box-shadow: var(--gb-shadow-lg);
+  text-align: center;
+  color: var(--gb-ink-soft);
+  font-family: var(--gb-font-body);
+}
+
+.pd-loading-spinner {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  border: 3px solid var(--gb-moss-tint);
+  border-top-color: var(--gb-moss);
+  animation: pd-spin 0.8s linear infinite;
+}
+
+@keyframes pd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------
+   PAGE
+--------------------------------------------------------------- */
+.pd-page {
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------------------------
+   HERO
+--------------------------------------------------------------- */
+.pd-hero {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 6.5rem 1.75rem 0;
+  color: var(--gb-hero-ink);
+  text-align: center;
+}
+
+.pd-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--gb-font-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gb-hero-ink-soft);
+  margin: 0 0 1.5rem;
+}
+
+.pd-eyebrow-rule {
+  width: 28px;
+  height: 1px;
+  background: var(--gb-hero-ink-soft);
+  display: inline-block;
+}
+
+.pd-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.pd-hero-heading {
+  flex: 1 1 320px;
+}
+
+.pd-hero-title {
+  font-family: var(--gb-font-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 4.5vw + 1rem, 3.9rem);
+  line-height: 1.02;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.pd-hero-scientific {
+  font-family: var(--gb-font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gb-hero-ink-soft);
+  font-size: 1.15rem;
+  margin: 0 0 1rem;
+}
+
+.pd-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--gb-font-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--gb-radius-pill);
+  background: rgba(248, 242, 226, 0.14);
+  border: 1px solid rgba(248, 242, 226, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+.pd-status-healthy { background: rgba(160, 200, 140, 0.22); border-color: rgba(160, 200, 140, 0.5); color: #e4f2da; }
+.pd-status-attention { background: rgba(232, 190, 110, 0.22); border-color: rgba(232, 190, 110, 0.5); color: #fbecc9; }
+.pd-status-critical { background: rgba(224, 130, 100, 0.24); border-color: rgba(224, 130, 100, 0.5); color: #fbdccf; }
+
+.pd-badge-fav {
+  background: rgba(214, 140, 160, 0.22);
+  border-color: rgba(214, 140, 160, 0.5);
+  color: #fbdfe6;
+}
+
+.pd-hero-quip {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.pd-hero-quip-line {
+  font-family: var(--gb-font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  margin: 0;
+  color: var(--gb-hero-ink);
+}
+
+.pd-hero-quip-sub {
+  font-family: var(--gb-font-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gb-hero-ink-soft);
+  margin: 0.3rem 0 0;
+}
+
+.pd-hero-body {
+  max-width: 60ch;
+  margin: 1.75rem auto 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--gb-hero-ink-soft);
+}
+
+.pd-hero-credit {
+  font-family: var(--gb-font-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--gb-hero-ink-soft);
+  margin: 1.25rem 0 0;
+}
+
+.pd-hero-credit strong {
+  color: var(--gb-hero-ink);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------
+   SHELF (the plant photo, with a scooped base + floating rail)
+--------------------------------------------------------------- */
+.pd-shelf {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0 0;
+}
+
+.pd-shelf-media {
+  position: relative;
+  width: min(440px, 100%);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 34px 34px 50% 50% / 34px 34px 90px 90px;
+  box-shadow: var(--gb-shadow-hero);
+  border: 1px solid rgba(248, 242, 226, 0.15);
+}
+
+.pd-shelf-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pd-shelf-tag {
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid var(--gb-paper-raised);
+  box-shadow: 0 8px 18px rgba(8, 10, 5, 0.35);
+  transform: rotate(-9deg);
+  z-index: 2;
+}
+
+.pd-shelf-scrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(18, 22, 14, 0) 0%, rgba(14, 16, 9, 0.85) 100%);
+  pointer-events: none;
+}
+
+.pd-shelf-caption {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--gb-font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--gb-hero-ink);
+}
+
+/* floating action rail */
+.pd-rail {
+  position: absolute;
+  top: 1.25rem;
+  right: -18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  background: rgba(20, 24, 15, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(248, 242, 226, 0.18);
+  border-radius: var(--gb-radius-pill);
+  box-shadow: var(--gb-shadow-lg);
+  z-index: 3;
+}
+
+.pd-rail-btn {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(248, 242, 226, 0.08);
+  border: 1px solid rgba(248, 242, 226, 0.16);
+  color: var(--gb-hero-ink);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.pd-rail-btn:hover {
+  background: var(--gb-moss);
+  border-color: var(--gb-moss);
+  transform: translateY(-2px);
+}
+
+.pd-rail-btn--done {
+  background: var(--gb-moss);
+  border-color: var(--gb-moss);
+  color: var(--gb-paper-raised);
+}
+
+.pd-rail-btn:focus-visible {
+  outline: 2px solid var(--gb-gold);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------
+   CONTENT SHEET (the cream "record" zone)
+--------------------------------------------------------------- */
+.pd-content-sheet {
+  position: relative;
+  z-index: 2;
+  background: var(--gb-paper);
+  border-radius: 44px 44px 0 0;
+  margin-top: -70px;
+  padding: 4rem 1.75rem 5rem;
+  box-shadow: 0 -20px 50px rgba(8, 10, 5, 0.3);
+}
+
+.pd-sheet-notch {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 26px;
+  background: var(--gb-hero-bg);
+  border-radius: 0 0 30px 30px;
+  box-shadow: inset 0 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pd-content-sheet > * {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* shared panel chrome */
+.pd-panel {
+  background: var(--gb-paper-raised);
+  border: 1px solid var(--gb-line);
+  border-radius: var(--gb-radius-lg);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--gb-shadow-md);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pd-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--gb-shadow-lg);
+}
+
+.pd-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--gb-font-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gb-ink-soft);
+  margin: 0 0 1.25rem;
+}
+
+/* ---------------------------------------------------------------
+   VITALS
+--------------------------------------------------------------- */
+.pd-vitals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.pd-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pd-stat-label {
+  font-family: var(--gb-font-label);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gb-ink-soft);
+}
+
+.pd-stat-value {
+  font-family: var(--gb-font-display);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.pd-stat-value small {
+  font-family: var(--gb-font-label);
+  font-size: 0.9rem;
+  color: var(--gb-ink-soft);
+  margin-left: 0.15rem;
+}
+
+.pd-stat-value--sm {
+  font-size: 1.2rem;
+  font-family: var(--gb-font-body);
+  font-weight: 600;
+}
+
+/* "grow meter" gauge — the signature element */
+.pd-health-bar-mini {
+  position: relative;
+  height: 12px;
+  border-radius: var(--gb-radius-pill);
+  background:
+    repeating-linear-gradient(90deg, var(--gb-ink) 0 1px, transparent 1px 10%),
+    var(--gb-paper-deep);
+  background-blend-mode: multiply;
+  box-shadow: inset 0 2px 4px rgba(43, 39, 23, 0.18);
+  overflow: visible;
+}
+
+.pd-health-bar-mini > div {
+  position: relative;
+  height: 100%;
+  border-radius: var(--gb-radius-pill);
+  transition: width 0.6s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.pd-health-bar-mini > div::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: inherit;
+  border: 2px solid var(--gb-paper-raised);
+  box-shadow: var(--gb-shadow-sm);
+}
+
+.pd-water-countdown {
+  font-size: 0.85rem;
+  color: var(--gb-ink-soft);
+}
+
+.pd-water-countdown.pd-overdue {
+  color: var(--gb-terracotta);
+  font-weight: 700;
+}
+
+.pd-water-btn {
+  grid-column: span 1;
+  justify-self: end;
+  padding: 0.85rem 1.5rem;
+  border-radius: var(--gb-radius-pill);
+  background: var(--gb-moss);
+  color: var(--gb-paper-raised);
+  border: none;
+  font-family: var(--gb-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--gb-shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.pd-water-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--gb-shadow-md);
+}
+
+.pd-water-btn--done {
+  background: var(--gb-moss-tint);
+  color: var(--gb-moss);
+  cursor: default;
+}
+
+.pd-water-btn:focus-visible {
+  outline: 2px solid var(--gb-gold);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------
+   ENVIRONMENT / INFO GRID
+--------------------------------------------------------------- */
+.pd-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.pd-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.1rem 1.15rem;
+  border-radius: var(--gb-radius-md);
+  border: 1px solid var(--gb-line);
+}
+
+.pd-info-item--0 { background: var(--gb-moss-tint); }
+.pd-info-item--1 { background: var(--gb-sky-tint); }
+.pd-info-item--2 { background: var(--gb-gold-tint); }
+.pd-info-item--3 { background: var(--gb-berry-tint); }
+
+.pd-info-icon {
+  font-size: 1.1rem;
+  color: var(--gb-ink);
+  opacity: 0.65;
+}
+
+.pd-info-label {
+  font-family: var(--gb-font-label);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gb-ink-soft);
+}
+
+.pd-info-value {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+/* ---------------------------------------------------------------
+   AI CARE GUIDE
+--------------------------------------------------------------- */
+.pd-care-guide {
+  display: grid;
+  gap: 1rem;
+}
+
+.pd-guide-item {
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--gb-radius-md);
+  border-left: 4px solid transparent;
+}
+
+.pd-guide-item h4 {
+  margin: 0 0 0.4rem;
+  font-family: var(--gb-font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.pd-guide-item p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--gb-ink-soft);
+}
+
+.pd-guide-item--clay { background: var(--gb-terracotta-tint); border-color: var(--gb-terracotta); }
+.pd-guide-item--moss { background: var(--gb-moss-tint); border-color: var(--gb-moss); }
+.pd-guide-item--gold { background: var(--gb-gold-tint); border-color: var(--gb-gold); }
+
+/* ---------------------------------------------------------------
+   DUAL GRID (fertilizer + weather)
+--------------------------------------------------------------- */
+.pd-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+}
+
+.pd-dual-card {
+  margin-bottom: 0;
+}
+
+.pd-dual-card--moss { background: var(--gb-moss-tint); border-color: var(--gb-moss); }
+.pd-dual-card--sky { background: var(--gb-sky-tint); border-color: var(--gb-sky); }
+
+.pd-dual-card .pd-section-eyebrow {
+  color: var(--gb-ink);
+  opacity: 0.7;
+}
+
+.pd-dual-body {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--gb-ink);
+}
+
+/* ---------------------------------------------------------------
+   JOURNAL PREVIEW
+--------------------------------------------------------------- */
+.pd-journal-card {
+  background: var(--gb-berry-tint);
+  border-color: var(--gb-berry);
+  position: relative;
+}
+
+.pd-journal-date {
+  font-family: var(--gb-font-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gb-berry);
+  margin: 0 0 0.5rem;
+}
+
+.pd-journal-preview-text {
+  font-family: var(--gb-font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--gb-ink);
+  margin: 0 0 1.5rem;
+}
+
+.pd-journal-empty {
+  color: var(--gb-ink-soft);
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+
+/* ---------------------------------------------------------------
+   ACTIONS
+--------------------------------------------------------------- */
+.pd-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin: 2.5rem auto 0;
+  max-width: 900px;
+}
+
+.pd-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--gb-radius-pill);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pd-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--gb-shadow-sm);
+}
+
+.pd-action-btn:focus-visible {
+  outline: 2px solid var(--gb-gold);
+  outline-offset: 2px;
+}
+
+.pd-btn-wiki {
+  background: transparent;
+  border-color: var(--gb-sky);
+  color: var(--gb-sky);
+}
+
+.pd-btn-journal {
+  background: var(--gb-gold);
+  color: var(--gb-paper-raised);
+}
+
+.pd-btn-edit {
+  background: transparent;
+  border-color: var(--gb-moss);
+  color: var(--gb-moss);
+}
+
+/* the journal card's own CTA reuses .pd-btn-journal but sits solo */
+.pd-journal-card .pd-action-btn {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------
+   CORNER STICKER
+--------------------------------------------------------------- */
+.pd-corner-sticker {
+  display: block;
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 3px solid var(--gb-paper-raised);
+  box-shadow: var(--gb-shadow-lg);
+  transform: rotate(7deg);
+  margin: 2.5rem auto 0;
+}
+
+/* ---------------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .pd-vitals {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pd-water-btn {
+    grid-column: span 2;
+    justify-self: stretch;
+    margin-top: 0.5rem;
+  }
+  .pd-dual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pd-hero {
+    padding-top: 5.5rem;
+  }
+  .pd-hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pd-hero-quip {
+    text-align: left;
+  }
+  .pd-rail {
+    top: auto;
+    bottom: 1rem;
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+  }
+  .pd-content-sheet {
+    padding: 3.5rem 1.1rem 3.5rem;
+  }
+  .pd-panel {
+    padding: 1.5rem;
+  }
+  .pd-vitals {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+   MOTION
+--------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .pd-panel,
+  .pd-rail-btn,
+  .pd-water-btn,
+  .pd-action-btn {
+    transition: none;
+  }
+  .pd-panel:hover,
+  .pd-rail-btn:hover,
+  .pd-water-btn:hover,
+  .pd-action-btn:hover {
+    transform: none;
+  }
+  .pd-loading-spinner {
+    animation: none;
+  }
+}

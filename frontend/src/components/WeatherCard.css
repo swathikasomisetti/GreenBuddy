@@ -1,0 +1,343 @@
+/* ==========================================================================
+   WeatherCard — full redesign in the GreenBuddy "digital greenhouse" style:
+   dark forest panel, rounded photo with a gold diagonal glow, gold pill tag,
+   serif headline with a gold second line, and a bulleted care list in place
+   of the old chip row. Matches .ghs from the promo panel 1:1 in spirit.
+   ========================================================================== */
+
+.weather-section {
+  background: var(--paper);
+  padding: 64px 24px;
+}
+
+.weatherCard {
+  --wc-gold: var(--gold, #d6b36a);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 460px) 1fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 64px 60px;
+  background: #07130d;
+  border-radius: 28px;
+  color: #fff;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+.weatherCard--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  max-width: 1180px;
+  margin: 0 auto;
+  border-radius: 28px;
+  background: #07130d;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+/* ---------- Left: photo ---------- */
+
+.weatherCard__photo {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.weatherCard__photo img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.85);
+}
+
+.weatherCard__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(214, 179, 106, 0.2), transparent 60%);
+  pointer-events: none;
+}
+
+.weatherCard__badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(7, 19, 13, 0.55);
+  border: 1px solid rgba(214, 179, 106, 0.4);
+  backdrop-filter: blur(4px);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wc-gold);
+}
+
+/* ---------- Right: body ---------- */
+
+.weatherCard__body {
+  max-width: 520px;
+}
+
+.weatherCard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.weatherCard__eyebrow {
+  display: inline-block;
+  padding: 9px 20px;
+  margin-bottom: 24px;
+  border-radius: 40px;
+  background: rgba(214, 179, 106, 0.15);
+  border: 1px solid rgba(214, 179, 106, 0.35);
+  color: var(--wc-gold);
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.weatherCard__head h2 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 2.6rem;
+  line-height: 1.1;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.weatherCard__condition {
+  margin: 6px 0 0;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  color: var(--wc-gold);
+  text-transform: capitalize;
+}
+
+.weatherCard__icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ---------- Stats row ---------- */
+
+.weatherCard__stats {
+  display: flex;
+  gap: 28px;
+  padding-bottom: 26px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.weatherStat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weatherStat svg {
+  width: 20px;
+  height: 20px;
+  color: var(--wc-gold);
+  flex-shrink: 0;
+}
+
+.weatherStat div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.weatherStat span {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.weatherStat strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ---------- Care note ---------- */
+
+.weatherCard__note {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.weatherCard__notePhoto {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  filter: brightness(0.9);
+}
+
+.weatherCard__note h4 {
+  margin: 0 0 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.weatherCard__note p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #d9d6cd;
+}
+
+/* ---------- Care list: replaces the old chip row.
+   Two quiet groups instead of a "needs attention" alarm —
+   what to do, and what's already thriving — each with its
+   own dot color, echoing .ghs-points but functional. ---------- */
+
+.weatherCard__careGroup {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.weatherCard__careGroup:last-child {
+  margin-bottom: 0;
+}
+
+.weatherCard__careLabel {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 12px;
+}
+
+.weatherCard__careItem {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #ececec;
+}
+
+.weatherCard__careItem:last-child {
+  margin-bottom: 0;
+}
+
+.weatherCard__careItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wc-gold);
+}
+
+.weatherCard__careItem--fine::before {
+  background: var(--moss, #4f6b4a);
+}
+
+.weatherCard__careItem b {
+  font-weight: 600;
+  color: #fff;
+}
+
+.weatherCard__careItem span {
+  color: #b9b6ac;
+}
+
+.weatherCard__fine {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #b9b6ac;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .weatherCard {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 48px 32px;
+    text-align: left;
+  }
+
+  .weatherCard__photo img {
+    height: 300px;
+  }
+
+  .weatherCard__body {
+    max-width: none;
+  }
+
+  .weatherCard__head h2 {
+    font-size: 2.1rem;
+  }
+
+  .weatherCard__condition {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .weather-section {
+    padding: 40px 16px;
+  }
+
+  .weatherCard {
+    padding: 36px 22px;
+    border-radius: 20px;
+  }
+
+  .weatherCard__stats {
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .weatherCard__note {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .weatherCard__notePhoto {
+    width: 100%;
+    height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weatherCard {
+    transition: none;
+  }
+}

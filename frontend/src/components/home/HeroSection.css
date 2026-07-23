@@ -1,0 +1,518 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap");
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+.ghero {
+  --bg: #07130d;
+  --panel: #f7f5ef;
+  --dark: #293222;
+  --accent: #d6b36a;
+  --muted: #6f7365;
+  --edge: 6%;
+}
+
+/* =====================================================
+   HERO SHELL
+===================================================== */
+.ghero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+.ghero-bg {
+  position: absolute;
+  inset: -4%;
+}
+
+.ghero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(6px) saturate(1.05) brightness(0.62) sepia(0.08);
+}
+
+.ghero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(5, 10, 7, 0.75) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 10, 7, 0.35) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(5, 10, 7, 0.45) 100%
+    );
+  pointer-events: none;
+}
+
+.ghero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+.ghero-streak {
+  position: absolute;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(214, 179, 106, 0.35),
+    transparent 70%
+  );
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.streak-a {
+  top: -10%;
+  left: 22%;
+  height: 60%;
+  transform: rotate(12deg);
+  animation: streakDrift 14s ease-in-out infinite;
+}
+
+.streak-b {
+  top: -5%;
+  left: 68%;
+  height: 45%;
+  transform: rotate(10deg);
+  animation: streakDrift 18s ease-in-out infinite reverse;
+}
+
+@keyframes streakDrift {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateX(0) rotate(12deg);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translateX(30px) rotate(12deg);
+  }
+}
+
+.ghero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ghero-particles span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(247, 245, 239, 0.5);
+  animation: gfloat linear infinite;
+}
+
+@keyframes gfloat {
+  from {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.3;
+  }
+  to {
+    transform: translateY(-120px) translateX(16px);
+    opacity: 0;
+  }
+}
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+.ghero-topbar {
+  position: absolute;
+  top: 40px;
+  left: var(--edge);
+  right: var(--edge);
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ghero-toplabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ghero-toplabel span {
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: rgba(247, 245, 239, 0.8);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.ghero-pill-nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 14px 30px;
+  border-radius: 50px;
+  border: 1px solid rgba(247, 245, 239, 0.35);
+  background: rgba(247, 245, 239, 0.06);
+  backdrop-filter: blur(14px);
+}
+
+.pill-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+  font-weight: 500;
+  color: rgba(247, 245, 239, 0.9);
+  transition: color 0.3s;
+}
+
+.pill-nav-item:hover {
+  color: var(--accent);
+}
+
+.pill-nav-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(247, 245, 239, 0.35);
+}
+
+.ghero-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(247, 245, 239, 0.1);
+  border: 1px solid rgba(247, 245, 239, 0.35);
+  color: var(--panel);
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+.brand-text span {
+  font-size: 0.72rem;
+  letter-spacing: 0.6px;
+  color: rgba(247, 245, 239, 0.75);
+  font-weight: 500;
+}
+
+/* =====================================================
+   CENTER SASH PANEL
+===================================================== */
+.ghero-panel {
+  position: relative;
+  z-index: 8;
+  width: 100%;
+  background: var(--panel);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  padding: 44px var(--edge);
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(260px, 340px) minmax(240px, 1fr);
+  align-items: center;
+  column-gap: 36px;
+  overflow: visible;
+}
+
+.panel-dots {
+  position: absolute;
+  top: 22px;
+  right: var(--edge);
+  display: flex;
+  gap: 5px;
+}
+
+.panel-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dark);
+  opacity: 0.6;
+}
+
+/* ---------- left: signature / date / colorbar ---------- */
+.panel-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.signature-script {
+  font-family: "Caveat", cursive;
+  font-size: 2.6rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.signature-date {
+  font-size: 0.74rem;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.panel-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 30px;
+  background: rgba(41, 50, 34, 0.06);
+}
+
+.panel-stat-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.panel-stat span {
+  font-size: 0.76rem;
+  letter-spacing: 0.2px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.panel-stat span b {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* ---------- center: overlapping circular photograph ---------- */
+.panel-circle {
+  position: relative;
+  justify-self: center;
+  width: clamp(220px, 24vw, 320px);
+  aspect-ratio: 1 / 1;
+  margin: -64px 0;
+}
+
+.circle-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 10px solid var(--panel);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(41, 50, 34, 0.06);
+}
+
+.circle-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.circle-glow {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(230, 190, 130, 0.55),
+    transparent 70%
+  );
+  filter: blur(10px);
+  mix-blend-mode: screen;
+}
+
+.circle-glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22),
+    transparent 45%
+  );
+  mix-blend-mode: screen;
+}
+
+/* ---------- right: headline / copy / cta ---------- */
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.panel-heading {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 1.9rem;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: var(--dark);
+  margin: 0;
+}
+
+.panel-copy {
+  max-width: 320px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 400;
+  margin: 0;
+}
+
+.panel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--dark);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--dark);
+  transition: color 0.3s, border-color 0.3s, gap 0.3s;
+}
+
+.panel-cta:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  gap: 12px;
+}
+
+.panel-cta-arrow {
+  font-size: 0.95rem;
+}
+
+/* =====================================================
+   BOTTOM ROW
+===================================================== */
+.ghero-bottomrow {
+  position: absolute;
+  bottom: 36px;
+  left: var(--edge);
+  right: var(--edge);
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.bottomrow-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bottomrow-line {
+  width: 130px;
+  height: 1px;
+  background: rgba(247, 245, 239, 0.35);
+}
+
+.bottomrow-side span:last-child {
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  color: rgba(247, 245, 239, 0.6);
+}
+
+.bottomrow-left {
+  align-items: flex-start;
+}
+
+.bottomrow-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 960px) {
+  .ghero-pill-nav {
+    display: none;
+  }
+  .panel-heading {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .ghero-topbar {
+    top: 24px;
+  }
+  .ghero-brand .brand-text {
+    display: none;
+  }
+  .ghero-panel {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    row-gap: 18px;
+    padding: 40px var(--edge) 34px;
+  }
+  .panel-left,
+  .panel-right {
+    align-items: center;
+  }
+  .panel-circle {
+    order: -1;
+    margin: -50px 0 6px;
+    width: clamp(180px, 46vw, 240px);
+  }
+  .panel-copy {
+    max-width: 100%;
+  }
+  .panel-dots {
+    display: none;
+  }
+  .ghero-bottomrow {
+    bottom: 20px;
+  }
+  .bottomrow-line {
+    width: 80px;
+  }
+}

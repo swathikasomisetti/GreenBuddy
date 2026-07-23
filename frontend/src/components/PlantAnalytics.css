@@ -1,0 +1,348 @@
+/* ==========================================================================
+   PlantAnalytics — no chart, no bars. Growth is told as a story: a
+   photo panel + a grid of month "growth stage" badges (seedling → sprout
+   → growing → blooming). Same dark forest / gold / cream language as
+   WeatherCard, mirrored layout (photo on the right this time) for rhythm.
+   ========================================================================== */
+
+.analytics {
+  --a-gold: var(--gold, #d6b36a);
+
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 420px);
+  gap: 56px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto 96px;
+  padding: 64px 60px;
+  background: #07130d;
+  border-radius: 28px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Left: copy + stats + stage grid ---------- */
+
+.analytics__body {
+  max-width: 640px;
+}
+
+.analytics__eyebrow {
+  display: inline-block;
+  padding: 9px 20px;
+  margin-bottom: 22px;
+  border-radius: 40px;
+  background: rgba(214, 179, 106, 0.15);
+  border: 1px solid rgba(214, 179, 106, 0.35);
+  color: var(--a-gold);
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.analytics__heading {
+  margin: 0 0 16px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 2.4rem;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.analytics__heading em {
+  font-style: normal;
+  color: var(--a-gold);
+}
+
+.analytics__intro {
+  margin: 0 0 32px;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #d9d6cd;
+  max-width: 480px;
+}
+
+/* ---------- Stat trio ---------- */
+
+.analytics__stats {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.analytics__stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.analytics__stat--gold {
+  background: rgba(214, 179, 106, 0.1);
+  border-color: rgba(214, 179, 106, 0.3);
+}
+
+.analytics__statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  color: var(--a-gold);
+}
+
+.analytics__statIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.analytics__stat--gold .analytics__statIcon {
+  color: var(--a-gold);
+}
+
+.analytics__stat div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.analytics__stat strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.analytics__stat--gold strong {
+  color: var(--a-gold);
+}
+
+.analytics__stat span {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ---------- Month stage grid ---------- */
+
+.analytics__stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.analytics__stageCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 6px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: default;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.analytics__stageCard:hover,
+.analytics__stageCard:focus-visible {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(214, 179, 106, 0.4);
+  outline: none;
+}
+
+.analytics__stageCard--peak {
+  background: rgba(214, 179, 106, 0.12);
+  border-color: rgba(214, 179, 106, 0.45);
+}
+
+.analytics__peakBadge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--a-gold);
+  color: #1c1d18;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.analytics__stageIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.analytics__stageIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.analytics__stageCard--peak .analytics__stageIcon {
+  color: var(--a-gold);
+}
+
+.analytics__stageMonth {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.analytics__stageLabel {
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.analytics__stageTooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #fff;
+  color: #1c1d18;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.analytics__stageTooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #fff;
+}
+
+.analytics__empty {
+  margin: 0;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.92rem;
+  color: #b9b6ac;
+}
+
+/* ---------- Right: photo ---------- */
+
+.analytics__photo {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 380px;
+}
+
+.analytics__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.9);
+}
+
+.analytics__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(315deg, rgba(214, 179, 106, 0.2), transparent 60%);
+  pointer-events: none;
+}
+
+.analytics__badge {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(7, 19, 13, 0.55);
+  border: 1px solid rgba(214, 179, 106, 0.4);
+  backdrop-filter: blur(4px);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--a-gold);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .analytics {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 48px 32px;
+  }
+
+  .analytics__photo {
+    order: -1;
+    min-height: 240px;
+  }
+
+  .analytics__body {
+    max-width: none;
+  }
+
+  .analytics__stages {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .analytics {
+    padding: 36px 20px;
+    border-radius: 20px;
+  }
+
+  .analytics__heading {
+    font-size: 1.9rem;
+  }
+
+  .analytics__stats {
+    gap: 10px;
+  }
+
+  .analytics__stat {
+    flex: 1 1 calc(50% - 10px);
+  }
+
+  .analytics__stages {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .analytics__stageCard {
+    transition: none;
+  }
+}

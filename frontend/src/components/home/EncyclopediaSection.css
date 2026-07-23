@@ -1,0 +1,92 @@
+.encyclopedia {
+  background: #07130d;
+  padding: 120px 8%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+.encyclopedia-inner {
+  max-width: 720px;
+  text-align: center;
+}
+
+.encyclopedia-tag {
+  display: inline-block;
+  margin-bottom: 22px;
+  padding: 9px 20px;
+  border-radius: 40px;
+  background: rgba(214, 179, 106, 0.12);
+  border: 1px solid rgba(214, 179, 106, 0.3);
+  color: #d6b36a;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.encyclopedia-inner h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.9rem;
+  line-height: 1.15;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+.encyclopedia-inner h2 span {
+  display: block;
+  color: #d6b36a;
+}
+
+.encyclopedia-inner p {
+  color: #d9d6cd;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.encyclopedia-search {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 26px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d6b36a;
+  margin-bottom: 32px;
+}
+
+.encyclopedia-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.encyclopedia-search input::placeholder {
+  color: #a8a8a0;
+}
+
+.encyclopedia-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.chip {
+  padding: 9px 20px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ececec;
+  font-size: 0.85rem;
+  transition: 0.3s;
+}
+
+.chip:hover {
+  background: #d6b36a;
+  color: #243126;
+  border-color: #d6b36a;
+}

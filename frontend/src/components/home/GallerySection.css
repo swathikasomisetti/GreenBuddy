@@ -1,0 +1,197 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* =====================================================
+   VARIABLES — same tokens as Hero / Features / GreenHouse
+===================================================== */
+.gallery {
+  --bg: #07130d;
+  --panel: #f7f5ef;
+  --dark: #293222;
+  --accent: #d6b36a;
+  --muted: #a9ad9d;
+  --edge: 6%;
+}
+
+/* =====================================================
+   SECTION SHELL
+===================================================== */
+.gallery {
+  position: relative;
+  background: var(--bg);
+  padding: 120px var(--edge) 140px;
+  overflow: hidden;
+}
+
+.gallery-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* =====================================================
+   LEFT — bold headline block
+===================================================== */
+.gallery-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.gallery-mark {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+
+.gallery-mark i {
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.gallery-tag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.gallery-head h2 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1.05;
+  color: var(--panel);
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.gallery-head h2 span {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-style: italic;
+  text-transform: none;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.gallery-head p {
+  margin: 6px 0 0;
+  max-width: 280px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* =====================================================
+   RIGHT — staggered circle cascade
+===================================================== */
+.gallery-cascade {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.card-up {
+  margin-top: 0;
+}
+
+.card-down {
+  margin-top: 56px;
+}
+
+.gallery-circle {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 8px solid var(--panel);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.gallery-card:hover .gallery-circle img {
+  transform: scale(1.08);
+}
+
+.gallery-pill {
+  display: inline-flex;
+  padding: 6px 16px;
+  border-radius: 30px;
+  background: rgba(214, 179, 106, 0.12);
+  border: 1px solid rgba(214, 179, 106, 0.35);
+  color: var(--accent);
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.gallery-card h3 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--panel);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 1080px) {
+  .gallery-inner {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  .gallery-head {
+    align-items: flex-start;
+  }
+  .gallery-cascade {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .gallery {
+    padding: 90px var(--edge) 100px;
+  }
+  .gallery-cascade {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+  }
+  .card-down {
+    margin-top: 40px;
+  }
+  .gallery-head p {
+    max-width: 100%;
+  }
+}

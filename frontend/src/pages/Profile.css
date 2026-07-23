@@ -1,0 +1,994 @@
+/* ============================================================
+   GreenBuddy — Profile.css
+   Editorial "garden journal" theme: deep forest ground,
+   warm gold accent, serif display type over quiet sans body.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap');
+
+.gb-page {
+  /* ---- palette ---- */
+  --gb-bg: #0c160f;
+  --gb-bg-soft: #101d14;
+  --gb-panel: #16261b;
+  --gb-panel-2: #1c2f21;
+  --gb-line: rgba(216, 179, 106, 0.16);
+  --gb-line-soft: rgba(248, 245, 238, 0.08);
+
+  --gb-gold: #d8b36a;
+  --gb-gold-soft: #e8cd94;
+  --gb-gold-dim: rgba(216, 179, 106, 0.35);
+
+  --gb-cream: #f7f3e8;
+  --gb-cream-dim: rgba(247, 243, 232, 0.7);
+  --gb-sage: #9db79b;
+  --gb-sage-dim: rgba(157, 183, 155, 0.75);
+
+  --gb-good: #8fbf8a;
+  --gb-warn: #e0b45a;
+  --gb-bad: #d97b6b;
+
+  --gb-font-display: "Fraunces", "Iowan Old Style", serif;
+  --gb-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --gb-radius: 20px;
+  --gb-radius-sm: 12px;
+  --gb-container: 1180px;
+
+  background: var(--gb-bg);
+  color: var(--gb-cream);
+  font-family: var(--gb-font-body);
+  overflow-x: hidden;
+}
+
+.gb-page * { box-sizing: border-box; }
+
+/* ---------------------------------------------------------
+   Shared type + layout primitives
+   --------------------------------------------------------- */
+
+.gb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--gb-font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gb-gold);
+  margin-bottom: 14px;
+}
+.gb-eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--gb-gold);
+  display: inline-block;
+}
+
+.gb-display {
+  font-family: var(--gb-font-display);
+  font-weight: 500;
+  font-optical-sizing: auto;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--gb-cream);
+  margin: 0 0 18px;
+  font-size: clamp(2rem, 3.4vw, 2.85rem);
+}
+
+.gb-empty {
+  color: var(--gb-sage-dim);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.gb-section {
+  max-width: var(--gb-container);
+  margin: 0 auto;
+  padding: 96px 32px;
+  position: relative;
+}
+
+.gb-section__head {
+  margin-bottom: 48px;
+  text-align: left;
+}
+.gb-section__head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.gb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--gb-gold);
+  font-family: var(--gb-font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  padding: 0;
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+.gb-link:hover {
+  gap: 12px;
+  color: var(--gb-gold-soft);
+}
+
+/* buttons */
+.gb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--gb-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease, opacity 0.2s ease;
+}
+.gb-btn:active { transform: translateY(1px); }
+.gb-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.gb-btn--solid {
+  background: var(--gb-gold);
+  color: #16210f;
+}
+.gb-btn--solid:hover:not(:disabled) { background: var(--gb-gold-soft); }
+
+.gb-btn--ghost {
+  background: transparent;
+  color: var(--gb-cream);
+  border-color: rgba(247, 243, 232, 0.35);
+}
+.gb-btn--ghost:hover {
+  border-color: var(--gb-gold);
+  color: var(--gb-gold-soft);
+}
+
+.gb-btn--sm { padding: 10px 20px; font-size: 0.82rem; }
+
+/* ---------------------------------------------------------
+   Reveal-on-scroll
+   --------------------------------------------------------- */
+.gb-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.gb-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gb-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------------------------------------------------------
+   Loading + toast
+   --------------------------------------------------------- */
+.gb-loading {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: var(--gb-bg, #0c160f);
+  color: var(--gb-sage, #9db79b);
+  font-family: var(--gb-font-body, sans-serif);
+}
+.gb-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(216, 179, 106, 0.2);
+  border-top-color: #d8b36a;
+  animation: gb-spin 0.9s linear infinite;
+}
+@keyframes gb-spin { to { transform: rotate(360deg); } }
+
+.gb-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--gb-font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  animation: gb-toast-in 0.3s ease;
+}
+.gb-toast--ok { background: var(--gb-gold, #d8b36a); color: #16210f; }
+.gb-toast--err { background: #d97b6b; color: #2a1210; }
+@keyframes gb-toast-in {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ============================================================
+   SECTION 1 — HERO
+   ============================================================ */
+.gb-hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 140px 32px 60px;
+}
+
+.gb-hero__bg {
+  position: absolute;
+  inset: -6% -6%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+.gb-hero__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 22, 15, 0.55) 0%, rgba(12, 22, 15, 0.75) 45%, var(--gb-bg) 96%),
+    linear-gradient(90deg, rgba(12, 22, 15, 0.5) 0%, rgba(12, 22, 15, 0.15) 40%, rgba(12, 22, 15, 0.15) 60%, rgba(12, 22, 15, 0.5) 100%);
+}
+.gb-hero__rays {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 45% at 50% 8%, rgba(216, 179, 106, 0.18), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.gb-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 32px;
+  max-width: 640px;
+}
+
+/* two-column hero: copy on the left, portrait on the right —
+   replaces the old centered layout that left empty space beside the frame */
+.gb-hero__content--split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 56px;
+  max-width: 980px;
+  width: 100%;
+  text-align: left;
+}
+.gb-hero__content--split .gb-hero__text {
+  align-items: flex-start;
+  text-align: left;
+}
+.gb-hero__content--split .gb-hero__actions {
+  justify-content: flex-start;
+}
+.gb-hero__content--split .gb-hero__frame-wrap {
+  justify-self: center;
+  width: 200px;
+  height: 200px;
+}
+.gb-hero__content--split .gb-hero__frame {
+  width: 176px;
+  height: 176px;
+}
+
+.gb-hero__frame-wrap {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gb-hero__bloom {
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  filter: blur(2px) saturate(1.1);
+}
+.gb-hero__scribble {
+  position: absolute;
+  inset: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  animation: gb-rotate 40s linear infinite;
+}
+@keyframes gb-rotate { to { transform: rotate(360deg); } }
+
+.gb-hero__frame {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 2px solid var(--gb-gold);
+  background: var(--gb-panel);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+.gb-hero__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gb-hero__frame span {
+  font-family: var(--gb-font-display);
+  font-size: 2.2rem;
+  color: var(--gb-gold);
+}
+.gb-hero__frame-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 22, 15, 0.55);
+  color: var(--gb-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.gb-hero__frame:hover .gb-hero__frame-overlay { opacity: 1; cursor: pointer; }
+
+.gb-hero__text { display: flex; flex-direction: column; align-items: center; }
+.gb-hero__text .gb-eyebrow::before,
+.gb-hero__text .gb-eyebrow::after { content: none; }
+.gb-hero__text .gb-eyebrow { justify-content: center; }
+
+.gb-hero__title {
+  font-family: var(--gb-font-display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  line-height: 1.05;
+  color: var(--gb-cream);
+  margin: 4px 0 6px;
+}
+.gb-hero__name-input {
+  font-family: var(--gb-font-display);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--gb-gold-dim);
+  color: var(--gb-cream);
+  text-align: center;
+  padding: 4px 8px 8px;
+  margin: 4px 0 6px;
+  outline: none;
+}
+.gb-hero__name-input:focus { border-color: var(--gb-gold); }
+
+.gb-hero__role {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gb-sage);
+}
+.gb-hero__tagline {
+  margin: 14px 0 4px;
+  color: var(--gb-cream-dim);
+  font-size: 1.02rem;
+  font-style: italic;
+  font-family: var(--gb-font-display);
+}
+
+.gb-hero__actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gb-scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gb-sage-dim);
+  animation: gb-bob 2.4s ease-in-out infinite;
+}
+@keyframes gb-bob {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.6; }
+  50% { transform: translate(-50%, 6px); opacity: 1; }
+}
+
+/* ============================================================
+   SECTION 2 — MY GARDEN STORY
+   ============================================================ */
+.gb-story {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.gb-story__bio {
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: var(--gb-sage-dim);
+  max-width: 46ch;
+  margin: 0 0 40px;
+}
+.gb-story__bio-input {
+  width: 100%;
+  max-width: 46ch;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line);
+  border-radius: var(--gb-radius-sm);
+  color: var(--gb-cream);
+  font-family: var(--gb-font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 14px 16px;
+  margin-bottom: 40px;
+  resize: vertical;
+  outline: none;
+}
+.gb-story__bio-input:focus { border-color: var(--gb-gold-dim); }
+
+.gb-story__facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 28px;
+  column-gap: 40px;
+  max-width: 440px;
+}
+.gb-story__facts label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gb-sage);
+  margin-bottom: 8px;
+}
+.gb-story__facts p {
+  margin: 0;
+  font-family: var(--gb-font-display);
+  font-size: 1.2rem;
+  color: var(--gb-cream);
+}
+.gb-story__facts input {
+  width: 100%;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line);
+  border-radius: 8px;
+  color: var(--gb-cream);
+  font-family: var(--gb-font-body);
+  font-size: 0.95rem;
+  padding: 8px 10px;
+  outline: none;
+}
+.gb-story__facts input:focus { border-color: var(--gb-gold-dim); }
+
+.gb-story__visual {
+  position: relative;
+  height: 420px;
+}
+.gb-story__main {
+  position: absolute;
+  right: 0;
+  top: 10%;
+  width: 78%;
+  height: 82%;
+  border-radius: var(--gb-radius);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--gb-line);
+}
+.gb-story__circle {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 6px solid var(--gb-bg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/* ============================================================
+   SECTION 3 — GARDEN SPOTLIGHT
+   (replaces the old plant-grid, which duplicated the
+   "My Plants" carousel further down the page)
+   ============================================================ */
+.gb-collage__status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+.gb-collage__status--good { color: var(--gb-good); }
+.gb-collage__status--warn { color: var(--gb-warn); }
+.gb-collage__status--bad { color: var(--gb-bad); }
+
+.gb-spotlight {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line-soft);
+  border-radius: var(--gb-radius);
+  overflow: hidden;
+  min-height: 380px;
+}
+.gb-spotlight__media {
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+.gb-spotlight__media:hover { filter: brightness(1.08); }
+
+.gb-spotlight__body {
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+.gb-spotlight__body h3 {
+  font-family: var(--gb-font-display);
+  font-weight: 500;
+  font-size: 2.1rem;
+  color: var(--gb-cream);
+  margin: 0;
+}
+.gb-spotlight__body p {
+  color: var(--gb-sage-dim);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 42ch;
+}
+.gb-spotlight__stats {
+  display: flex;
+  gap: 36px;
+  margin: 8px 0 4px;
+  flex-wrap: wrap;
+}
+.gb-spotlight__stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.gb-spotlight__stats strong {
+  font-family: var(--gb-font-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--gb-gold);
+}
+.gb-spotlight__stats span {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gb-sage);
+}
+
+.gb-empty-card {
+  border: 1px dashed var(--gb-line);
+  border-radius: var(--gb-radius);
+  padding: 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  color: var(--gb-sage-dim);
+}
+.gb-empty-card img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   SECTION 4 — GARDEN JOURNAL
+   ============================================================ */
+.gb-journal {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.gb-journal__page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: center;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line-soft);
+  border-radius: var(--gb-radius);
+  padding: 28px;
+}
+.gb-journal__page--right {
+  grid-template-columns: 1fr 280px;
+}
+.gb-journal__page--right .gb-journal__photo { order: 2; }
+.gb-journal__page--right .gb-journal__body { order: 1; }
+
+/* the page now only ever shows one journal card, sized a little
+   wider and centered so it doesn't look like a stray leftover row */
+.gb-journal__page--single {
+  grid-template-columns: 360px 1fr;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.gb-journal__photo {
+  border-radius: var(--gb-radius-sm);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+.gb-journal__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.gb-journal__date {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gb-gold);
+  margin-bottom: 10px;
+}
+.gb-journal__body h3 {
+  font-family: var(--gb-font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--gb-cream);
+  margin: 0 0 10px;
+}
+.gb-journal__body p {
+  color: var(--gb-sage-dim);
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+.gb-journal__mood { margin-left: 4px; }
+
+/* ============================================================
+   SECTION 5 — AI GARDEN REPORT
+   ============================================================ */
+.gb-ai {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  padding: 64px;
+  isolation: isolate;
+}
+.gb-ai__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(10, 18, 12, 0.94) 0%, rgba(10, 18, 12, 0.8) 55%, rgba(10, 18, 12, 0.55) 100%);
+  z-index: -1;
+}
+.gb-ai__panel { position: relative; z-index: 1; max-width: 720px; }
+.gb-ai__row {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.gb-ai__score-num {
+  font-family: var(--gb-font-display);
+  font-size: 1.7rem;
+  fill: var(--gb-cream);
+}
+.gb-ai__score-label {
+  font-family: var(--gb-font-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  fill: var(--gb-sage);
+}
+.gb-ai__summary h3 {
+  font-family: var(--gb-font-display);
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--gb-cream);
+  margin: 0 0 14px;
+}
+.gb-ai__summary ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gb-ai__summary li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--gb-cream-dim);
+  line-height: 1.55;
+}
+.gb-ai__summary li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gb-gold);
+}
+
+/* ============================================================
+   SECTION 6 — MY PLANTS CAROUSEL
+   ============================================================ */
+.gb-carousel-nav { display: flex; gap: 10px; }
+.gb-carousel-nav button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--gb-line);
+  background: var(--gb-panel);
+  color: var(--gb-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.gb-carousel-nav button:hover { border-color: var(--gb-gold); color: var(--gb-gold); }
+
+.gb-carousel {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+}
+.gb-carousel::-webkit-scrollbar { display: none; }
+
+.gb-carousel__card {
+  flex: 0 0 auto;
+  width: 300px;
+  scroll-snap-align: start;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line-soft);
+  border-radius: var(--gb-radius);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.gb-carousel__card:hover { transform: translateY(-6px); border-color: var(--gb-gold-dim); }
+
+.gb-carousel__photo { height: 190px; }
+.gb-carousel__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.gb-carousel__body { padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+.gb-carousel__body h4 {
+  font-family: var(--gb-font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--gb-cream);
+  margin: 0;
+}
+.gb-carousel__species { color: var(--gb-sage-dim); font-size: 0.85rem; }
+.gb-carousel__health {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gb-good);
+}
+.gb-carousel__schedule {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--gb-cream-dim);
+  margin-bottom: 6px;
+}
+.gb-carousel__body .gb-link { margin-top: 4px; }
+
+/* ============================================================
+   SECTION 7 — MONTHLY GARDEN ACTIVITY
+   ============================================================ */
+.gb-activity {
+  position: relative;
+  max-width: var(--gb-container);
+  margin: 0 auto;
+  padding: 72px 48px;
+  border-radius: 28px;
+  background: var(--gb-panel);
+  border: 1px solid var(--gb-line-soft);
+  text-align: center;
+  overflow: hidden;
+}
+.gb-activity .gb-eyebrow,
+.gb-activity .gb-display { justify-content: center; text-align: center; }
+.gb-activity .gb-eyebrow { justify-content: center; }
+
+.gb-activity__row {
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+
+.gb-ring-stat { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.gb-ring-stat__arc { transition: stroke-dashoffset 1.1s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.gb-ring-stat__num {
+  font-family: var(--gb-font-display);
+  font-size: 1.6rem;
+  fill: var(--gb-cream);
+}
+.gb-ring-stat__label {
+  font-size: 0.76rem;
+  color: var(--gb-sage-dim);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   SECTION 8 — ACCOUNT
+   ============================================================ */
+.gb-section--account { padding-bottom: 140px; }
+
+.gb-account {
+  border: 1px solid var(--gb-line-soft);
+  border-radius: var(--gb-radius);
+  overflow: hidden;
+  background: var(--gb-panel);
+}
+.gb-account__row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 26px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--gb-line-soft);
+  color: var(--gb-cream);
+  font-family: var(--gb-font-body);
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.gb-account__row:last-child { border-bottom: none; }
+.gb-account__row:hover { background: var(--gb-panel-2); }
+.gb-account__row span:first-child { display: flex; align-items: center; gap: 12px; }
+.gb-account__row svg:first-child { color: var(--gb-gold); }
+.gb-account__row--danger { color: var(--gb-bad); }
+.gb-account__row--danger svg:first-child { color: var(--gb-bad); }
+
+.gb-pw {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 26px 24px;
+  background: var(--gb-panel-2);
+}
+.gb-pw input {
+  background: var(--gb-bg-soft);
+  border: 1px solid var(--gb-line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--gb-cream);
+  font-family: var(--gb-font-body);
+  font-size: 0.92rem;
+  outline: none;
+}
+.gb-pw input:focus { border-color: var(--gb-gold-dim); }
+.gb-pw .gb-btn { align-self: flex-start; margin-top: 4px; }
+
+.gb-switch {
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(247, 243, 232, 0.15);
+  position: relative;
+  transition: background 0.25s ease;
+  flex-shrink: 0;
+}
+.gb-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gb-cream);
+  transition: transform 0.25s ease;
+}
+.gb-switch--on { background: var(--gb-gold); }
+.gb-switch--on .gb-switch__thumb { transform: translateX(18px); background: #16210f; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .gb-hero__content--split {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 32px;
+  }
+  .gb-hero__content--split .gb-hero__text {
+    align-items: center;
+    text-align: center;
+  }
+  .gb-hero__content--split .gb-hero__actions { justify-content: center; }
+  .gb-hero__content--split .gb-hero__frame-wrap { order: -1; }
+
+  .gb-story { grid-template-columns: 1fr; gap: 48px; }
+  .gb-story__visual { height: 320px; order: -1; }
+
+  .gb-spotlight { grid-template-columns: 1fr; }
+  .gb-spotlight__media { min-height: 260px; }
+  .gb-spotlight__body { padding: 36px; }
+
+  .gb-journal__page,
+  .gb-journal__page--right,
+  .gb-journal__page--single {
+    grid-template-columns: 1fr;
+  }
+  .gb-journal__page--right .gb-journal__photo,
+  .gb-journal__page--right .gb-journal__body { order: initial; }
+
+  .gb-ai { padding: 40px; }
+  .gb-ai__row { gap: 32px; }
+  .gb-activity { padding: 56px 24px; }
+  .gb-activity__row { gap: 36px; }
+}
+
+@media (max-width: 560px) {
+  .gb-section { padding: 64px 20px; }
+  .gb-hero { padding: 120px 20px 48px; min-height: 78vh; }
+  .gb-hero__title { font-size: clamp(2.1rem, 9vw, 2.8rem); }
+  .gb-story__facts { grid-template-columns: 1fr; }
+  .gb-spotlight__stats { gap: 24px; }
+  .gb-carousel__card { width: 84vw; }
+  .gb-account__row { padding: 16px 18px; font-size: 0.9rem; }
+}
+
+/* keyboard focus visibility */
+.gb-page a:focus-visible,
+.gb-page button:focus-visible,
+.gb-page input:focus-visible,
+.gb-page textarea:focus-visible {
+  outline: 2px solid var(--gb-gold);
+  outline-offset: 2px;
+}

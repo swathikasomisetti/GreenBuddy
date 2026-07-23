@@ -1,0 +1,501 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap");
+
+.notebook-page-wrap {
+  --gb-black: #0b100c;
+  --gb-forest: #16241a;
+  --gb-forest-deep: #0f1a13;
+  --gb-sage: #93a988;
+  --gb-olive: #6e7c4d;
+  --gb-cream: #f6f1e3;
+  --gb-cream-2: #ece2c9;
+  --gb-gold: #d3a55b;
+  --gb-gold-deep: #b3833c;
+  --gb-text-cream: #f6f3ea;
+  --gb-text-muted: #cfd3c4;
+  --gb-ink: #362f22;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--gb-black);
+  font-family: "Inter", sans-serif;
+  padding-bottom: 100px;
+  overflow: hidden;
+}
+
+.notebook-bg {
+  position: fixed;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px) brightness(0.42) saturate(1.05);
+  z-index: 0;
+}
+
+.notebook-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(30, 45, 30, 0.2), transparent 60%),
+    linear-gradient(180deg, rgba(8, 12, 8, 0.75) 0%, rgba(8, 12, 8, 0.88) 40%, rgba(6, 9, 6, 0.97) 100%);
+}
+
+.notebook-loading {
+  position: relative;
+  z-index: 1;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--gb-text-cream, #f6f3ea);
+  font-family: "Fraunces", serif;
+  font-size: 1.2rem;
+  background: #0b100c;
+}
+
+.notebook-loading-leaf {
+  font-size: 1.4rem;
+}
+
+.notebook-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 24px 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(246, 243, 234, 0.08);
+  border: 1px solid rgba(246, 243, 234, 0.22);
+  color: var(--gb-text-cream);
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  margin-bottom: 28px;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.back-link:hover {
+  background: rgba(246, 243, 234, 0.16);
+  transform: translateX(-2px);
+}
+
+/* ---------- NOTEBOOK CARD ---------- */
+
+.notebook-page {
+  position: relative;
+  background: var(--gb-cream);
+  background-image:
+    radial-gradient(rgba(54, 47, 34, 0.035) 1px, transparent 1px);
+  background-size: 4px 4px;
+  border-radius: 34px;
+  padding: 44px 44px 56px;
+  box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.65), 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.notebook-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.notebook-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--gb-olive);
+  margin-bottom: 14px;
+}
+
+.notebook-eyebrow .eyebrow-rule {
+  width: 22px;
+  height: 1px;
+  background: var(--gb-olive);
+  display: inline-block;
+}
+
+.notebook-header h1 {
+  font-family: "Fraunces", serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4.4vw, 48px);
+  color: var(--gb-forest);
+  margin: 0 0 8px;
+}
+
+.notebook-subtitle {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gb-gold-deep);
+}
+
+.notebook-meta {
+  font-size: 0.92rem;
+  color: #746f5a;
+  margin: 0;
+}
+
+.notebook-meta em {
+  font-style: italic;
+}
+
+.notebook-hero-photo {
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 26px 50px -20px rgba(0, 0, 0, 0.4);
+  margin-bottom: 26px;
+}
+
+.notebook-hero-photo img {
+  width: 100%;
+  height: clamp(220px, 38vw, 360px);
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.notebook-hero-photo:hover img {
+  transform: scale(1.03);
+}
+
+.notebook-stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin-bottom: 34px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(54, 47, 34, 0.08);
+  border-radius: 20px;
+}
+
+.notebook-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notebook-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gb-forest);
+  color: var(--gb-cream);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.notebook-stat-icon--emoji {
+  background: transparent;
+  color: initial;
+  font-size: 1.3rem;
+}
+
+.notebook-stat-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.notebook-stat-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #8a8568;
+}
+
+.notebook-stat-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gb-ink);
+}
+
+/* ---------- COMPOSER ---------- */
+
+.entry-composer {
+  background: var(--gb-cream-2);
+  border: 1px solid rgba(54, 47, 34, 0.1);
+  border-radius: 22px;
+  padding: 22px;
+  margin-bottom: 40px;
+}
+
+.composer-label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--gb-olive);
+  margin-bottom: 12px;
+}
+
+.entry-composer textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  resize: vertical;
+  font-family: "Fraunces", serif;
+  font-size: 1.05rem;
+  color: var(--gb-ink);
+  line-height: 1.6;
+  padding: 0;
+  outline: none;
+}
+
+.entry-composer textarea::placeholder {
+  color: #9a947c;
+  font-style: italic;
+}
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(54, 47, 34, 0.18);
+}
+
+.attach-photo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gb-forest);
+  cursor: pointer;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(22, 36, 26, 0.25);
+  transition: background 0.2s ease;
+}
+
+.attach-photo-btn:hover {
+  background: rgba(22, 36, 26, 0.06);
+}
+
+.add-entry-btn {
+  border: none;
+  cursor: pointer;
+  background: var(--gb-forest);
+  color: var(--gb-cream);
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 11px 24px;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.add-entry-btn:hover:not(:disabled) {
+  background: var(--gb-forest-deep);
+  transform: translateY(-1px);
+}
+
+.add-entry-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.washi-frame {
+  position: relative;
+  border: 6px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.35);
+}
+
+.photo-preview {
+  display: inline-block;
+  margin-top: 16px;
+  max-width: 220px;
+}
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.remove-photo-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gb-forest);
+  color: var(--gb-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+/* ---------- ENTRIES TIMELINE ---------- */
+
+.entries-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.empty-journal {
+  text-align: center;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  color: #8a8568;
+  padding: 40px 0;
+}
+
+.notebook-entry {
+  position: relative;
+  padding: 22px 0 0;
+  border-top: 1px dashed rgba(54, 47, 34, 0.18);
+}
+
+.entry-date-rail {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.entry-date {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--gb-gold-deep);
+}
+
+.entry-chip-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.entry-chip {
+  font-size: 0.7rem;
+  background: rgba(110, 124, 77, 0.14);
+  color: var(--gb-olive);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.entry-delete-btn {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #a89f83;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.entry-delete-btn:hover {
+  color: #b0453a;
+}
+
+.entry-body {
+  padding-left: 2px;
+}
+
+.entry-title {
+  font-family: "Fraunces", serif;
+  font-size: 1.1rem;
+  color: var(--gb-forest);
+  margin: 0 0 6px;
+}
+
+.entry-note {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--gb-ink);
+  margin: 0 0 14px;
+}
+
+.entry-photo-wrap {
+  display: inline-block;
+  max-width: 320px;
+}
+
+.entry-photo {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.margin-sticker {
+  position: absolute;
+  bottom: -18px;
+  right: -18px;
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--gb-cream);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.4);
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 640px) {
+  .notebook-page {
+    padding: 30px 22px 44px;
+    border-radius: 26px;
+  }
+
+  .notebook-stat-row {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .composer-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-entry-btn,
+  .attach-photo-btn {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .margin-sticker {
+    width: 62px;
+    height: 62px;
+    bottom: -12px;
+    right: -12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notebook-hero-photo img,
+  .back-link {
+    transition: none !important;
+  }
+}

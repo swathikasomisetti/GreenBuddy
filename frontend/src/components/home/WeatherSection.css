@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* =====================================================
+   VARIABLES — same tokens as the rest of the site
+===================================================== */
+.weather {
+  --bg: #07130d;
+  --panel: #f7f5ef;
+  --dark: #293222;
+  --accent: #d6b36a;
+  --muted: #6f7365;
+  --edge: 6%;
+}
+
+/* =====================================================
+   SECTION SHELL
+===================================================== */
+.weather {
+  position: relative;
+  background: var(--bg);
+  padding: 100px var(--edge) 110px;
+  overflow: hidden;
+}
+
+.weather-glow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(
+    circle,
+    rgba(214, 179, 106, 0.16),
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+.weather-card {
+  position: relative;
+  z-index: 2;
+  max-width: 1080px;
+  margin: 0 auto;
+  background: var(--panel);
+  border-radius: 30px;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1.15fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* =====================================================
+   LEFT — main weather info
+===================================================== */
+.weather-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.weather-tag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.weather-main h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+.weather-main h2 span {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 2.3vw, 1.9rem);
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.weather-main p {
+  margin: 4px 0 6px;
+  max-width: 320px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* current conditions */
+.weather-now {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.weather-now-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #efe0bd, var(--accent));
+  color: var(--dark);
+  flex-shrink: 0;
+}
+
+.weather-now h3 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 2.1rem;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.weather-now h3 span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.weather-loc {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* humidity / wind meta */
+.weather-meta {
+  display: flex;
+  gap: 22px;
+  margin-top: 8px;
+}
+
+.weather-meta div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+}
+
+.weather-meta span {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.weather-meta span b {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+.weather-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(41, 50, 34, 0.14);
+}
+
+/* =====================================================
+   RIGHT — forecast strip
+===================================================== */
+.weather-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.weather-forecast-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.weather-forecast-row {
+  display: flex;
+  gap: 10px;
+}
+
+.forecast-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border-radius: 16px;
+  background: rgba(41, 50, 34, 0.04);
+  color: var(--dark);
+  transition: transform 0.3s, background 0.3s;
+}
+
+.forecast-day:hover {
+  transform: translateY(-3px);
+  background: rgba(41, 50, 34, 0.07);
+}
+
+.forecast-day.is-today {
+  background: linear-gradient(160deg, #efe0bd, var(--accent));
+  box-shadow: 0 14px 26px rgba(214, 179, 106, 0.35);
+}
+
+.forecast-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.forecast-day svg {
+  color: var(--accent);
+}
+
+.forecast-day.is-today svg {
+  color: var(--dark);
+}
+
+.forecast-temp {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 900px) {
+  .weather-card {
+    grid-template-columns: 1fr;
+    padding: 38px 30px;
+    gap: 28px;
+  }
+  .weather-divider {
+    width: 100%;
+    height: 1px;
+  }
+  .weather-forecast-row {
+    flex-wrap: wrap;
+  }
+  .forecast-day {
+    min-width: 64px;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather {
+    padding: 70px var(--edge) 80px;
+  }
+  .weather-now {
+    flex-wrap: wrap;
+  }
+}

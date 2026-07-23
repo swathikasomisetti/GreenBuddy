@@ -1,0 +1,377 @@
+/* ═════════════════════════════════════════════════════════════════════
+   PlantCard — "Botanical Postcard"
+
+   Reads top-to-bottom like a real postcard laid flat: the framed photo up
+   top is the picture side (complete with a botanical stamp + a couple of
+   tape corners), and postcard-content below is the written side — eyebrow
+   label, name, a ruled divider, address-style details, a handwritten-style
+   note, and the care actions, closed out with a small archive footer.
+
+   Tokens: reuses --ink / --paper / --paper-dim / --moss / --moss-deep /
+   --clay / --gold / --stone / --line / --forest-900 from Dashboard.css
+   when present, with hex fallbacks so this file also works standalone.
+   ═════════════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Caveat:wght@600&family=Courier+Prime:wght@400;700&display=swap");
+
+/* ── PART 2 — card shell: dimensions, paper, shadow, responsive base ── */
+
+.postcard {
+  --stamp: var(--clay, #b5602f);
+
+  position: relative;
+  flex: 0 0 auto;
+  width: 226px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper, #f4ecd8);
+  border: 1px solid var(--line, #d8cfb8);
+  box-shadow: 0 10px 26px rgba(28, 29, 24, 0.12), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  cursor: pointer;
+  scroll-snap-align: start;
+  animation: postcard-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--pc-order) * 0.06s);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+@keyframes postcard-rise {
+  from { opacity: 0; transform: translateY(16px) rotate(-0.6deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+.postcard:hover {
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow: 0 22px 40px rgba(28, 29, 24, 0.18), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+.postcard:focus-visible {
+  outline: 2px solid var(--moss, #5c6b47);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .postcard { width: 198px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .postcard, .postcard img, .postcard .favorite, .actions button {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ── PART 3 — photo section: stamp, tape, favourite, hover, badges ── */
+
+.postcard-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-dim, #ece2c8);
+  border-bottom: 1px solid var(--line, #d8cfb8);
+}
+
+.postcard-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) contrast(1.02);
+  transition: transform 0.6s ease;
+}
+.postcard:hover .postcard-photo img {
+  transform: scale(1.06);
+}
+
+.postcard-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 19, 12, 0) 60%, rgba(11, 19, 12, 0.4) 100%);
+  pointer-events: none;
+}
+
+/* Washi-tape corners — a small "mounted photograph" cue */
+.postcard-tape {
+  position: absolute;
+  top: -6px;
+  width: 42px;
+  height: 18px;
+  background: rgba(244, 236, 216, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 4px rgba(28, 29, 24, 0.18);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 2;
+}
+.postcard-tape--left {
+  left: 14px;
+  transform: rotate(-8deg);
+}
+.postcard-tape--right {
+  right: 14px;
+  transform: rotate(7deg);
+}
+
+/* Botanical stamp — glass card in the corner with a perforated edge,
+   drawn with a repeating radial-gradient mask (no image asset). */
+.botanical-stamp {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 34px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244, 236, 216, 0.72);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 3px 8px rgba(28, 29, 24, 0.22);
+  transform: rotate(4deg);
+  -webkit-mask-image: radial-gradient(circle 2.6px at 2.6px 2.6px, transparent 2.3px, black 2.5px);
+  -webkit-mask-size: 7px 7px;
+  -webkit-mask-repeat: round;
+  mask-image: radial-gradient(circle 2.6px at 2.6px 2.6px, transparent 2.3px, black 2.5px);
+  mask-size: 7px 7px;
+  mask-repeat: round;
+}
+.botanical-stamp-mono {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--moss-deep, #46512f);
+}
+.botanical-stamp--healthy .botanical-stamp-mono { color: var(--moss-deep, #46512f); }
+.botanical-stamp--warning .botanical-stamp-mono { color: var(--gold, #b9862f); }
+.botanical-stamp--critical .botanical-stamp-mono { color: var(--clay, #b5602f); }
+
+.favorite {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(244, 236, 216, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--paper, #f4ecd8);
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.favorite:hover { transform: scale(1.08); }
+.favorite.active { color: var(--clay, #b5602f); }
+.favorite--pulse { animation: favorite-pulse 0.4s ease; }
+@keyframes favorite-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+.postcard-badge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.postcard-badge--due {
+  background: rgba(199, 154, 75, 0.9);
+  color: #1c1d18;
+}
+.postcard-badge--done {
+  background: rgba(79, 107, 74, 0.9);
+  color: #fdfcf9;
+}
+
+/* ── PART 4 — typography: museum labels, scientific name, divider ──── */
+
+.postcard-content {
+  position: relative;
+  padding: 14px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.16  0 0 0 0 0.14  0 0 0 0 0.1  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 140px 140px;
+}
+
+.collection-id {
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone, #8a8478);
+  margin-bottom: 6px;
+}
+
+.postcard-content h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.15;
+  color: var(--ink, #2b2a24);
+  margin: 0 0 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scientific {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--stone, #8a8478);
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  margin: 10px 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--line, #d8cfb8) 0,
+    var(--line, #d8cfb8) 5px,
+    transparent 5px,
+    transparent 9px
+  );
+}
+
+/* ── details: address-line grid, botanical details ──────────────────── */
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+
+.details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.details span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stone, #8a8478);
+}
+.details span svg {
+  font-size: 8px;
+  color: var(--gold, #b9862f);
+}
+
+.details p {
+  font-family: "Playfair Display", serif;
+  font-size: 13px;
+  color: var(--ink, #2b2a24);
+  margin: 0;
+}
+
+.health-value--healthy { color: var(--moss, #5c6b47); }
+.health-value--warning { color: var(--gold, #b9862f); }
+.health-value--critical { color: var(--clay, #b5602f); }
+
+/* Handwritten-style note — the postcard's "wish you were here" line */
+.note {
+  font-family: "Caveat", cursive;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--ink, #2b2a24);
+  margin: 0 0 12px;
+}
+
+/* ── PART 5 — care actions + footer ───────────────────────────────── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+}
+
+.actions button {
+  flex: 1;
+  border: 1px solid var(--line, #d8cfb8);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--ink, #2b2a24);
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 7px 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.actions button:first-child {
+  background: var(--moss-deep, #46512f);
+  border-color: var(--moss-deep, #46512f);
+  color: #fdfcf9;
+  flex: 1.3;
+}
+.actions button:first-child:hover {
+  background: var(--forest-900, #232a1c);
+  transform: translateY(-1px);
+}
+.actions button:not(.danger):not(:first-child):hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--stone, #8a8478);
+}
+.actions button.danger {
+  color: var(--clay, #b5602f);
+}
+.actions button.danger:hover {
+  background: rgba(181, 96, 47, 0.1);
+  border-color: var(--clay, #b5602f);
+}
+
+.specimen-footer {
+  display: block;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line, #d8cfb8);
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 10px;
+  color: var(--gold, #b9862f);
+}
+
+/* ── PART 6 — mobile polish ───────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .postcard-content h2 { font-size: 16px; }
+  .note { font-size: 17px; }
+  .details { gap: 8px 10px; }
+  .actions button { font-size: 9px; padding: 6px; }
+  .botanical-stamp { width: 30px; height: 36px; }
+}

@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* =====================================================
+   VARIABLES — mirrors HeroSection.css so both sections
+   read as one continuous brand
+===================================================== */
+.features {
+  --bg: #07130d;
+  --panel: #f7f5ef;
+  --dark: #293222;
+  --accent: #d6b36a;
+  --muted: #6f7365;
+  --edge: 6%;
+}
+
+/* =====================================================
+   SECTION SHELL
+===================================================== */
+.features {
+  position: relative;
+  background: var(--bg);
+  padding: 130px var(--edge) 140px;
+  overflow: hidden;
+}
+
+.features-glow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  width: 700px;
+  height: 500px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(214, 179, 106, 0.14),
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.features-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+/* =====================================================
+   HEAD
+===================================================== */
+.features-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto 70px;
+}
+
+.features-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(214, 179, 106, 0.4);
+  background: rgba(214, 179, 106, 0.08);
+  color: var(--accent);
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.features-head h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.18;
+  color: var(--panel);
+}
+
+.features-head h2 span {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  letter-spacing: 0.2px;
+  color: var(--accent);
+  margin-top: 6px;
+}
+
+/* =====================================================
+   GRID
+===================================================== */
+.features-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: var(--panel);
+  border-radius: 24px;
+  padding: 34px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(41, 50, 34, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(41, 50, 34, 0.06);
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e3c47e, var(--accent));
+  color: var(--dark);
+}
+
+.feature-card h3 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--dark);
+}
+
+.feature-card p {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 1100px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .features {
+    padding: 90px var(--edge) 100px;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .features-head {
+    margin-bottom: 50px;
+  }
+}

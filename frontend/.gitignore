@@ -1,0 +1,58 @@
+# =========================
+# Java / Spring Boot
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# =========================
+# React
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Python (if any)
+# =========================
+__pycache__/
+*.pyc
+
+# =========================
+# Uploaded Images
+# (Optional)
+# =========================
+uploads/
