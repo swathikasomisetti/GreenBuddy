@@ -581,3 +581,65 @@
   .ap-actions { flex-direction: column-reverse; }
   .ap-cancel-btn, .ap-submit-btn { width: 100%; text-align: center; }
 }
+
+/* AI Auto-Fill & Suggestion Chips */
+.ai-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(21, 128, 61, 0.2);
+  transition: all 0.2s;
+}
+
+.ai-btn:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(21, 128, 61, 0.3);
+}
+
+.ai-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ap-quick-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ap-quick-suggestions span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--stone);
+}
+
+.ap-chip-btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ap-chip-btn:hover {
+  background: #ecfdf5;
+  border-color: #86efac;
+  color: #15803d;
+}

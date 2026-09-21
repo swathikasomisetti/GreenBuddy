@@ -376,6 +376,164 @@ body {
   box-shadow: 0 14px 30px rgba(199, 154, 75, 0.42);
 }
 
+/* ─────────────────────────────────────────────
+   AI PLANT DOCTOR & VITALITY BANNER
+   ───────────────────────────────────────────── */
+.dashboard-ai-banner {
+  width: 100%;
+  padding: 48px max(24px, calc((100% - var(--content-w)) / 2));
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 36px;
+  align-items: center;
+  background: linear-gradient(135deg, #111a12 0%, #1a291b 100%);
+  border-top: 1px solid rgba(134, 239, 172, 0.15);
+  border-bottom: 1px solid rgba(134, 239, 172, 0.15);
+  color: #f7f5ef;
+}
+
+@media (max-width: 880px) {
+  .dashboard-ai-banner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 36px 20px;
+  }
+}
+
+.ai-banner-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(46, 125, 50, 0.3);
+  border: 1px solid rgba(134, 239, 172, 0.3);
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.ai-pill-dot {
+  color: #4ade80;
+}
+
+.ai-banner-heading {
+  font-family: var(--serif, 'Playfair Display', serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+
+.ai-banner-sub {
+  font-size: 14.5px;
+  color: rgba(247, 245, 239, 0.78);
+  line-height: 1.6;
+  margin: 0 0 24px;
+  max-width: 580px;
+}
+
+.ai-banner-btn-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ai-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #22c55e;
+  color: #052e16;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.ai-primary-btn:hover {
+  background: #4ade80;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.ai-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f7f5ef;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.ai-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.ai-tech-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.ai-tech-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ai-tech-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #86efac;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ai-live-badge {
+  background: #15803d;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+
+.ai-feature-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+  color: rgba(247, 245, 239, 0.85);
+  line-height: 1.5;
+}
+
+.ai-feature-checklist strong {
+  color: #ffffff;
+}
+
 @media (max-width: 760px) {
   .promo-panel {
     grid-template-columns: 1fr;

@@ -1,200 +1,145 @@
-GreenBuddy
+# 🌿 GreenBuddy — Intelligent Plant Management & Botanical AI Platform
 
-GreenBuddy is a full-stack web application that helps users manage and care for their plants in one place. It allows users to keep track of their plants, monitor their health, receive watering reminders, maintain a growth journal, and view weather-based care suggestions. The goal of this project is to make plant care simple, organized, and accessible for everyone.
-
-This project was developed to strengthen my full-stack development skills using React, Spring Boot, and MySQL while learning how frontend and backend applications work together.
+**GreenBuddy** is a modern, full-stack botanical management web application that helps users monitor, diagnose, and care for their plants in one place. Powered by **React 19, Spring Boot, MySQL, and Botanical Machine Learning Intelligence**, GreenBuddy combines daily garden tracking with automated disease diagnosis, predictive watering algorithms, and an interactive AI care companion.
 
 ---
 
-Features
+## ✨ Features
 
-User Features
+### 🩺 AI & Machine Learning Features
+* **AI Plant Doctor & Disease Diagnostic Studio (`/ai-doctor`)**: Upload leaf photos or select symptoms (yellowing, brown tips, powdery mildew, pests, drooping) to receive instant disease diagnosis, severity scoring, pathogen identification, and organic home remedies (neem oil, cinnamon dusting, hydrogen peroxide flush).
+* **Machine Learning Plant Vitality & Hydration Predictor**: An algorithmic vitality engine calculating real-time Health Index (0–100%), dehydration risks, overwatering risks, and precision hydration countdowns based on watering frequency, elapsed days, and plant categories.
+* **Contextual In-Page AI Care Specialist**: On-demand botanical consultation built directly into each plant's details page with 1-click questions regarding pet safety, leaf discoloration, and propagation.
+* **AI Plant Auto-Filler**: Automatically generate complete botanical specifications (scientific name, category, watering/fertilizer cadence, sunlight, soil, pet toxicity) with 1 click.
+* **Interactive AI Chatbot (`GreenBuddy AI`)**: Floating conversational assistant connected to your personal garden collection.
+* **Resilient Fallback Botanical Knowledge Engine**: Works seamlessly both online with Google Gemini API and offline with built-in heuristic decision models.
 
-* User Registration and Login
-* Secure Authentication
-* Personal Dashboard
-* Add New Plants
-* Edit Plant Information
-* Delete Plants
-* View Detailed Plant Information
-* Mark Plants as Watered
-* Track Plant Health Status
-* Watering Schedule Management
-* Fertilizer Schedule Management
-* Favorite Plants
-* Growth Journal with Photo Uploads
-* Weather-Based Plant Care Suggestions
-* Plant Encyclopedia (Wikipedia Links)
-* Search and Filter Plants
-
-Admin Features
-
-* Manage Plant Database
-* Manage Users
-* Dashboard Analytics (basic implementation)
+### 🏡 Core Garden Management Features
+* **Personal Dashboard**: Botanical postcard collection layout with real-time health badges, animated counters, and care schedules.
+* **Plant CRUD**: Add, edit, delete, and inspect detailed plant profiles with photo uploads.
+* **Watering & Fertilizer Cadence**: Record last-watered dates and track next hydration schedules.
+* **Care Calendar**: Interactive timeline and monthly overview of upcoming garden tasks.
+* **Growth Journal**: Photo diary documenting plant growth, repotting, and milestones.
+* **Weather-Aware Plant Care**: Real-time temperature, humidity, and weather-driven advice for your city.
+* **Secure Authentication**: JWT-based login, registration, and user profile management.
 
 ---
 
-Tech Stack
+## 🛠️ Tech Stack
 
- Frontend
-
-* React (Vite)
-* JavaScript
-* HTML5
-* CSS3
-* Axios
-* React Router
+### Frontend
+* **React 19** with **Vite**
+* **Framer Motion** for smooth animations & parallax
+* **Lucide React & React Icons**
+* **FullCalendar** for interactive scheduling
+* **Recharts** for garden analytics
+* **Axios** & **React Router 7**
+* **React Toastify** for instant user notifications
 
 ### Backend
-
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* REST APIs
-* Lombok
+* **Java 21 / 25** with **Spring Boot 3**
+* **Spring Data JPA & Hibernate**
+* **Spring Security & JWT Authentication**
+* **Spring WebFlux WebClient** for external API integrations
+* **Lombok**
+* **Heuristic Botanical Machine Learning Classifier**
 
 ### Database
-
-* MySQL
+* **MySQL 8.0+**
 
 ---
 
-Project Structure
+## 📂 Project Structure
 
 ```text
 GreenBuddy/
 │
 ├── backend/
-│   ├── src/
-│   ├── uploads/
-│   ├── pom.xml
-│   └── application.properties
+│   ├── src/main/java/com/greenbuddy/greenbuddy/
+│   │   ├── config/              # Security & CORS configuration
+│   │   ├── controller/          # REST endpoints (AI, Plants, Journal, Calendar, Auth, Profile)
+│   │   ├── dto/ai/              # AIDiagnosis, HealthPrediction, PlantCare DTOs
+│   │   ├── model/               # JPA Entities (Plant, User, Journal, Reminder)
+│   │   ├── repository/          # Spring Data JPA repositories
+│   │   ├── security/            # JWT authentication filters & UserDetails
+│   │   └── service/ai/          # GeminiService, PlantHealthPredictorService, JsonExtractor
+│   ├── uploads/                 # Local directory for uploaded photos
+│   └── pom.xml                  # Maven dependencies
 │
 ├── frontend/
 │   ├── src/
-│   ├── public/
+│   │   ├── api/                 # Axios API clients (aiApi, plantApi, authApi, etc.)
+│   │   ├── components/          # Navbar, PlantCard, AIChatbot, WeatherCard, Analytics
+│   │   ├── pages/               # AIDoctor, Dashboard, PlantDetails, AddPlant, Journal, Calendar
+│   │   ├── assets/              # Botanical photographs, stickers & backgrounds
+│   │   ├── App.jsx              # Routes & navigation guards
+│   │   └── main.jsx             # Entrypoint
 │   ├── package.json
 │   └── vite.config.js
 │
-├── .gitignore
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-Getting Started
+## 🚀 Quick Start Guide
 
-### Clone the Repository
-
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/swathikasomisetti/GreenBuddy.git
-```
-
-Move into the project directory:
-
-```bash
 cd GreenBuddy
 ```
 
----
+### 2. Backend Setup
+1. Create a MySQL database named `greenbuddy`:
+   ```sql
+   CREATE DATABASE greenbuddy;
+   ```
+2. Verify or configure your database credentials in `backend/src/main/resources/application.properties`:
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/greenbuddy
+   spring.datasource.username=root
+   spring.datasource.password=your_password
+   ```
+3. *(Optional)* Add your Gemini API key in `application.properties` (or test with the built-in fallback engine):
+   ```properties
+   gemini.api.key=YOUR_GEMINI_KEY
+   ```
+4. Start the Spring Boot backend:
+   ```bash
+   cd backend
+   ./mvnw spring-boot:run
+   ```
+   *The backend runs on `http://localhost:8082`*
 
- Backend Setup
-
-1. Open the `backend` folder.
-2. Create a MySQL database named:
-
-```text
-greenbuddy
-```
-
-3. Update your `application.properties` file with your database credentials and API keys.
-
-4. Run the Spring Boot application.
-
-The backend runs on:
-
-```text
-http://localhost:8082
-```
-
----
-
-Frontend Setup
-
-Navigate to the frontend folder:
-
-```bash
-cd frontend
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The frontend runs on:
-
-```text
-http://localhost:5173
-```
+### 3. Frontend Setup
+1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   *The frontend runs on `http://localhost:5173`*
 
 ---
 
-Screenshots
+## 🩺 Using the AI Features
 
-Screenshots will be added as the project continues to evolve.
-
-* Dashboard
-* Plant Details
-* Add Plant
-* Growth Journal
-* Weather Suggestions
-* Care Calendar
+1. **AI Plant Doctor**: Navigate to `/ai-doctor` via the navigation bar or click **"🩺 AI Check"** on any plant card. Select observed symptoms (e.g. Yellow Leaves, Brown Tips, Powdery Mildew) or upload a leaf photo to receive an instant diagnostic breakdown and treatment plan.
+2. **Predictive Vitality Simulator**: On `/ai-doctor`, switch to the **"Smart Vitality & Hydration Predictor"** tab to test environmental sliders and observe real-time health score calculations and watering risk curves.
+3. **Plant Details Specialist**: Visit any plant page (`/plant/:id`) to review its live Health Index ring, dehydration risk meter, and consult the AI with custom questions directly on the page.
+4. **Auto-Fill New Plants**: Go to `/add-plant`, enter a name or choose from popular picks (Monstera, Pothos, Snake Plant), and click **"✨ Auto-Fill with AI"** to generate all care data instantly.
 
 ---
 
-What I Learned
+## 👩‍💻 Author
 
-Working on GreenBuddy helped me improve my understanding of:
-
-* Full-stack application development
-* REST API design and integration
-* Spring Boot architecture
-* Authentication with Spring Security
-* Database design using MySQL
-* CRUD operations
-* React component-based development
-* State management
-* File uploads
-* Weather API integration
-* Debugging and project organization
-
----
-
-Future Improvements
-
-Some features planned for future versions include:
-
-* AI-powered plant disease detection
-* Plant identification using uploaded images
-* Marketplace for buying and selling plants
-* Mobile responsiveness improvements
-* Push notifications
-* Personalized care recommendations
-* Community plant sharing
-
----
-
- Author
-
-**Swathika Somisetti**
-
-Developed as a full-stack project to practice building scalable web applications using React, Spring Boot, and MySQL.
+**Swathika Somisetti**  
+Full-stack developer passionate about building clean, performant, and intelligent web applications.

@@ -346,6 +346,18 @@
   background: rgba(255, 255, 255, 0.85);
   border-color: var(--stone, #8a8478);
 }
+.actions button.ai-check-btn {
+  background: rgba(46, 125, 50, 0.15);
+  border-color: rgba(46, 125, 50, 0.4);
+  color: #2e7d32;
+  font-weight: 800;
+}
+.actions button.ai-check-btn:hover {
+  background: #2e7d32;
+  color: #ffffff;
+  border-color: #1b5e20;
+}
+
 .actions button.danger {
   color: var(--clay, #b5602f);
 }

@@ -64,6 +64,23 @@
   font-weight: 600;
 }
 
+.app-nav-links a.nav-ai-highlight {
+  background: rgba(46, 125, 50, 0.25);
+  border: 1px solid rgba(134, 239, 172, 0.4);
+  color: #86efac;
+}
+
+.app-nav-links a.nav-ai-highlight:hover {
+  background: rgba(46, 125, 50, 0.4);
+  color: #bbf7d0;
+}
+
+.app-nav-links a.nav-ai-highlight.is-active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #4ade80;
+}
+
 .app-logout-btn {
   border: 1px solid rgba(247, 245, 239, 0.35);
   background: transparent;

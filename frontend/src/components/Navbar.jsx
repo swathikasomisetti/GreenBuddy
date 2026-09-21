@@ -14,6 +14,7 @@ function Navbar() {
 
   const links = [
     { to: "/dashboard", label: "Dashboard" },
+    { to: "/ai-doctor", label: "AI Doctor 🩺", highlight: true },
     { to: "/add-plant", label: "Add Plant" },
     { to: "/journal", label: "My Journal" },
     { to: "/profile", label: "My Profile" },
@@ -41,7 +42,7 @@ function Navbar() {
           <Link
             key={l.to}
             to={l.to}
-            className={isActive(l.to) ? "is-active" : ""}
+            className={`${isActive(l.to) ? "is-active" : ""} ${l.highlight ? "nav-ai-highlight" : ""}`}
           >
             {l.label}
           </Link>

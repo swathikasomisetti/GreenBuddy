@@ -14,8 +14,14 @@ import {
   FiHeart,
   FiCloud,
   FiHome,
+  FiCpu,
+  FiActivity,
+  FiSend,
+  FiShield,
+  FiAlertCircle
 } from "react-icons/fi";
 import { getPlantById, waterPlant } from "../api/plantApi";
+import { predictPlantHealth, askGeneralAI } from "../api/aiApi";
 import Navbar from "../components/Navbar";
 import { getPlantImage } from "../utils/imageUtils";
 // Cute stickers — rotate based on plant ID so each plant feels unique
@@ -52,7 +58,40 @@ function PlantDetails() {
   const heroParallax = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const heroFade = useTransform(scrollYProgress, [0, 1], [1, 0.45]);
 
-  useEffect(() => { loadPlant(); }, []);
+  const [aiPrediction, setAiPrediction] = useState(null);
+  const [aiQuestion, setAiQuestion] = useState("");
+  const [aiAnswer, setAiAnswer] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+
+  useEffect(() => {
+    loadPlant();
+    loadAiPrediction();
+  }, [id]);
+
+  const loadAiPrediction = async () => {
+    try {
+      const pred = await predictPlantHealth(id);
+      setAiPrediction(pred);
+    } catch (e) {
+      console.log("Prediction unavailable:", e);
+    }
+  };
+
+  const handleAskAi = async (customQ) => {
+    const q = customQ || aiQuestion;
+    if (!q || !q.trim()) return;
+    setAiLoading(true);
+    setAiAnswer("");
+    try {
+      const prompt = `Plant Name: ${plant?.plantName || "Plant"}\nScientific Name: ${plant?.scientificName || "N/A"}\nCategory: ${plant?.category || "Indoor"}\nSunlight: ${plant?.sunlight || "N/A"}\nQuestion: ${q}`;
+      const reply = await askGeneralAI(prompt);
+      setAiAnswer(reply);
+    } catch (e) {
+      setAiAnswer("GreenBuddy AI is currently resting. Please ensure backend server is active.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const loadPlant = async () => {
     try {
@@ -393,6 +432,143 @@ const heroImage = getPlantImage(plant);
             </div>
           </motion.section>
         )}
+
+        {/* ─────────── AI HEALTH VITALITY & BOTANIST ASSISTANT ─────────── */}
+        <motion.section
+          className="pd-panel pd-ai-panel"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          <div className="pd-ai-panel-header">
+            <div>
+              <span className="pd-ai-tag">
+                <FiCpu /> Machine Learning Vitality Radar
+              </span>
+              <h3 className="pd-ai-title">Precision Health &amp; Diagnostic Intelligence</h3>
+            </div>
+            <button
+              className="pd-ai-scan-btn"
+              onClick={() => navigate("/ai-doctor")}
+            >
+              🩺 Open AI Leaf Doctor
+            </button>
+          </div>
+
+          {aiPrediction ? (
+            <div className="pd-ai-prediction-grid">
+              <div className="pd-ai-score-card">
+                <div className="pd-ai-score-ring">
+                  <span className="pd-ai-score-num">{aiPrediction.healthScore}</span>
+                  <span className="pd-ai-score-label">Health Index</span>
+                </div>
+                <div className="pd-ai-score-details">
+                  <span className={`pd-ai-status-pill status-${aiPrediction.statusBadgeColor}`}>
+                    {aiPrediction.vitalityLevel} Vitality
+                  </span>
+                  <h4>Watering Urgency: {aiPrediction.wateringUrgency}</h4>
+                  <p>{aiPrediction.aiRecommendation}</p>
+                </div>
+              </div>
+
+              <div className="pd-ai-risks-card">
+                <div className="pd-risk-row">
+                  <div className="pd-risk-label">
+                    <span>Dehydration Risk</span>
+                    <strong>{aiPrediction.dehydrationRiskPercent}%</strong>
+                  </div>
+                  <div className="pd-risk-bar">
+                    <div
+                      className="pd-risk-fill pd-risk-dehydration"
+                      style={{ width: `${aiPrediction.dehydrationRiskPercent}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="pd-risk-row">
+                  <div className="pd-risk-label">
+                    <span>Overwatering Risk</span>
+                    <strong>{aiPrediction.overwateringRiskPercent}%</strong>
+                  </div>
+                  <div className="pd-risk-bar">
+                    <div
+                      className="pd-risk-fill pd-risk-overwater"
+                      style={{ width: `${aiPrediction.overwateringRiskPercent}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="pd-ai-action-tip">
+                  <strong>Recommended Action:</strong> {aiPrediction.recommendedAction}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="pd-ai-loading">
+              <FiActivity className="spin-icon" /> Calculating real-time hydration curves...
+            </div>
+          )}
+
+          {/* Interactive In-Context AI Care Companion */}
+          <div className="pd-ai-ask-box">
+            <h4 className="pd-ask-title">🌿 Ask GreenBuddy AI About {plant.plantName}</h4>
+            <div className="pd-prompt-chips">
+              <button
+                type="button"
+                onClick={() => handleAskAi("Why are the leaf tips turning brown or crispy?")}
+              >
+                🍂 Brown or crisp leaf tips?
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAskAi("Is this plant toxic or safe for cats and dogs?")}
+              >
+                🐾 Safe for pets?
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAskAi("How do I propagate and prune this plant safely?")}
+              >
+                ✂️ Pruning & propagation guide
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAskAi("What is the best fertilizer and repotting schedule?")}
+              >
+                🌱 Fertilizer & repotting schedule
+              </button>
+            </div>
+
+            <div className="pd-ask-input-row">
+              <input
+                type="text"
+                placeholder={`Ask any specific question about caring for your ${plant.plantName}...`}
+                value={aiQuestion}
+                onChange={(e) => setAiQuestion(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAskAi()}
+              />
+              <button
+                type="button"
+                onClick={() => handleAskAi()}
+                disabled={aiLoading}
+              >
+                {aiLoading ? "Consulting..." : <><FiSend /> Ask AI</>}
+              </button>
+            </div>
+
+            {aiAnswer && (
+              <div className="pd-ai-answer-card">
+                <div className="pd-ai-answer-header">
+                  <span>🤖 GreenBuddy Botanist Response:</span>
+                </div>
+                <div className="pd-ai-answer-content">
+                  {aiAnswer}
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.section>
 
         {/* ────────────────────── AI CARE ADVICE ────────────────────── */}
         {hasAiGuide && (

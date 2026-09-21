@@ -93,6 +93,26 @@ function PlantCard({ plant, loadPlants, onDelete, index = 0 }) {
     ? "Growing beautifully."
     : "Needs a little extra care.";
 
+  const handleConsultDoctor = (e) => {
+    e.stopPropagation();
+    navigate(`/ai-doctor`);
+  };
+
+  // Beginner ML Vitality calculation
+  const daysSince = plant.lastWateredDate
+    ? Math.max(0, Math.floor((new Date() - new Date(plant.lastWateredDate)) / (1000 * 60 * 60 * 24)))
+    : (plant.wateringFrequency || 7) + 1;
+  const freq = plant.wateringFrequency || 7;
+  const ratio = daysSince / freq;
+  let aiVitality = 96;
+  if (ratio > 2.0) aiVitality = 48;
+  else if (ratio > 1.4) aiVitality = 68;
+  else if (ratio > 1.0) aiVitality = 80;
+  else if (ratio > 0.7) aiVitality = 90;
+  if (plant.healthStatus && plant.healthStatus.toLowerCase() !== "healthy") {
+    aiVitality = Math.max(25, aiVitality - 18);
+  }
+
   return (
     <article
       className="postcard"
@@ -157,8 +177,10 @@ function PlantCard({ plant, loadPlants, onDelete, index = 0 }) {
           </div>
 
           <div>
-            <span>LAST WATERED</span>
-            <p>{plant.lastWateredDate || "Never"}</p>
+            <span>AI VITALITY</span>
+            <p className={`health-value health-value--${aiVitality >= 80 ? "healthy" : aiVitality >= 60 ? "warning" : "critical"}`}>
+              {aiVitality}%
+            </p>
           </div>
 
           <div>
@@ -175,6 +197,9 @@ function PlantCard({ plant, loadPlants, onDelete, index = 0 }) {
 
         <div className="actions" onClick={(e) => e.stopPropagation()}>
           <button onClick={handleWaterToday}>Water</button>
+          <button className="ai-check-btn" onClick={handleConsultDoctor} title="Diagnose plant symptoms">
+            🩺 AI Check
+          </button>
           <button onClick={handleEdit}>Edit</button>
           <button className="danger" onClick={handleDelete}>Delete</button>
         </div>

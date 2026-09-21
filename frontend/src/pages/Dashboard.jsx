@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import PlantCard from "../components/PlantCard";
 import PlantAnalytics from "../components/PlantAnalytics";
@@ -339,6 +340,45 @@ function Dashboard() {
             >
               View your collection <IconArrow />
             </a>
+          </div>
+        </section>
+
+        {/* ── AI PLANT DOCTOR & VITALITY BANNER ── */}
+        <section className="dashboard-ai-banner">
+          <div className="ai-banner-left">
+            <div className="ai-banner-pill">
+              <span>🩺 AI Botanical Doctor</span>
+              <span className="ai-pill-dot">•</span>
+              <span>Machine Learning Vitality Engine</span>
+            </div>
+            <h2 className="ai-banner-heading">
+              Detect Leaf Diseases & Predict Hydration Stress
+            </h2>
+            <p className="ai-banner-sub">
+              Upload leaf photos or select symptoms to diagnose fungal, pest, and nutritional issues with instant organic treatments and precision hydration predictions.
+            </p>
+            <div className="ai-banner-btn-row">
+              <Link to="/ai-doctor" className="ai-primary-btn">
+                <span>Diagnose Plant Symptoms</span>
+                <IconArrow />
+              </Link>
+              <Link to="/ai-doctor" className="ai-secondary-btn">
+                <span>Open Vitality Simulator</span>
+              </Link>
+            </div>
+          </div>
+          <div className="ai-banner-right">
+            <div className="ai-tech-card">
+              <div className="ai-tech-header">
+                <span className="ai-tech-title">Botanical Intelligence</span>
+                <span className="ai-live-badge">READY</span>
+              </div>
+              <ul className="ai-feature-checklist">
+                <li>🌱 <strong>Vision & Symptom Diagnosis:</strong> Leaf spot, powdery mildew & root rot detection.</li>
+                <li>💧 <strong>Hydration Decay Model:</strong> Precision calculation of next watering threshold.</li>
+                <li>🛡️ <strong>Organic Remediation:</strong> Neem, cinnamon & aeration recipes.</li>
+              </ul>
+            </div>
           </div>
         </section>
 

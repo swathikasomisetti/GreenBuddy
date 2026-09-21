@@ -1,0 +1,20 @@
+﻿# Secrets and environment files – NEVER commit
+.env
+*.env
+application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Frontend build artifacts
+frontend/dist/
+frontend/node_modules/
+
+# Backend build artifacts
+backend/target/
+backend/uploads/

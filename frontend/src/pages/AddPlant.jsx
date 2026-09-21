@@ -231,8 +231,23 @@ function AddPlant() {
                       onClick={handleGenerateAI}
                       disabled={generating}
                     >
-                      {generating ? "Generating..." : "✨ Generate AI Details"}
+                      {generating ? "Generating Botanical Specs..." : "✨ Auto-Fill with AI"}
                     </button>
+                    <div className="ap-quick-suggestions">
+                      <span>Quick picks:</span>
+                      {["Monstera Deliciosa", "Snake Plant", "Golden Pothos", "Peace Lily", "Aloe Vera"].map((name) => (
+                        <button
+                          key={name}
+                          type="button"
+                          className="ap-chip-btn"
+                          onClick={() => {
+                            setPlant((prev) => ({ ...prev, plantName: name }));
+                          }}
+                        >
+                          {name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="ap-field">

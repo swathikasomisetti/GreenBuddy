@@ -12,6 +12,7 @@ import PlantJournal from "./pages/PlantJournal";
 import Profile from "./pages/Profile";
 import { Navigate } from "react-router-dom";
 import CareCalendar from "./pages/CareCalendar";
+import AIDoctor from "./pages/AIDoctor";
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
@@ -33,6 +34,15 @@ return (
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/ai-doctor"
+        element={
+          <ProtectedRoute>
+            <AIDoctor />
           </ProtectedRoute>
         }
       />
