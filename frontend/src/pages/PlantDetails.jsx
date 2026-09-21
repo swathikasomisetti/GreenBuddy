@@ -25,10 +25,11 @@ import { predictPlantHealth, askGeneralAI } from "../api/aiApi";
 import Navbar from "../components/Navbar";
 import { getPlantImage } from "../utils/imageUtils";
 // Cute stickers — rotate based on plant ID so each plant feels unique
-import sticker1 from "../assets/sticker1.jpg"; // you grow girl (pothos)
-import sticker2 from "../assets/sticker2.jpg"; // little plant big love (watering can)
-import sticker3 from "../assets/sticker3.jpg"; // hello green (monstera)
-import sticker4 from "../assets/sticker4.jpg"; // reading plant (journal)
+import sticker1 from "../assets/Sticker1.jpg"; // you grow girl (pothos)
+import sticker2 from "../assets/Sticker2.jpg"; // little plant big love (watering can)
+import sticker3 from "../assets/Sticker3.jpg"; // hello green (monstera)
+import sticker4 from "../assets/Sticker4.jpg"; // reading plant (journal)
+
 
 // Reused from the dashboard so the whole app sits on the same atmosphere —
 // same file as `bgAtmosphereImg` in Dashboard.jsx, not a new asset.
