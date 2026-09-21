@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:8082";
+export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8082";
 const AI_URL = `${BASE_URL}/api/ai`;
+
 
 export const diagnosePlant = async (data) => {
   const response = await axios.post(`${AI_URL}/diagnose`, data);
