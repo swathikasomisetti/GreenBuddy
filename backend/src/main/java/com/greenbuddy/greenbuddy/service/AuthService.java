@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -22,6 +25,9 @@ public class AuthService {
     private final JwtService jwtService;
 
     public User register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists. Please login instead.");
+        }
 
         User user = User.builder()
                 .name(request.getName())
@@ -34,6 +40,7 @@ public class AuthService {
 
         return userRepository.save(user);
     }
+
 
     public JwtResponse login(LoginRequest request) {
 

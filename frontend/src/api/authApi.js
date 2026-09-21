@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "./config";
 
-const AUTH_URL = `${import.meta.env.VITE_API_URL || "http://localhost:8082"}/api/auth`;
+const AUTH_URL = `${API_BASE_URL}/api/auth`;
 
 
 export const registerUser = (data) =>

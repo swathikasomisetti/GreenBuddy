@@ -29,11 +29,17 @@ function Register() {
     try {
       await registerUser(form);
       navigate("/login");
-    } catch {
-      setError("Couldn't create your account. Try again.");
+    } catch (err) {
+      const msg = err.response?.data?.message || "";
+      if (err.response?.status === 409 || msg.includes("Duplicate") || msg.includes("already") || err.response?.status === 500) {
+        setError("This email is already registered. Please login with your password.");
+      } else {
+        setError(msg || "Couldn't create your account. Please try again or login.");
+      }
     } finally {
       setLoading(false);
     }
+
   };
 
   return (
